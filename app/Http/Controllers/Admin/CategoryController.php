@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use JD\Cloudder\Facades\Cloudder;
 
 class CategoryController extends Controller
 {
@@ -92,10 +91,9 @@ class CategoryController extends Controller
     public function uploader(Request $request)
     {
        if ($request->has('image')) {
-            $image_name = request()->file('image')->getRealPath();
-            Cloudder::upload($image_name, null);
-            $image_url = Cloudder::show(Cloudder::getPublicId(), ["width" => 150, "height"=> 150]);
-            return response()->json(['category_image' => $image_url]);
+             $imageName = pathinfo($request->file('image')->getClientOriginalName())['filename'] . '_' . time() . '.' . $request->image->getClientOriginalExtension();
+             $request->image->move(public_path('/category_images'), $imageName);
+            return response()->json(['category_image' => '/category_images/' . $imageName]);
         }
     }
 }

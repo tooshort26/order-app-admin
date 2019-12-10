@@ -67,6 +67,9 @@
     @endslot
     @slot('body')
 	    <form onSubmit="return false;">
+	    	<div id="edit-loader" class="ldld" style="position:absolute; z-index: 999; top : 50%; right : 45%;">
+	    		<img src="/loader.gif" width="50">
+	    	</div>
 	        <div class="form-group">	
 	            <input type="hidden" id="categoryID">
 	            <label for="categoryName">Category Name</label>
@@ -80,6 +83,13 @@
 	            <div class="input-group">
 	                <textarea class="form-control form-control-line" id="categoryDescription" cols="90" rows="10" placeholder="Enter the category description"></textarea>
 	            </div>
+	        </div>
+        	<div class="form-group">
+        		<img id="editCategoryImage" class="img-responsive center-block" alt="category image">
+        	</div>
+	        <div class="form-group">
+	        	<label for="updateCategoryImage">Edit image by clicking the choose file</label>
+				 <input name="file" type="file" id="updateCategoryImage" /> 
 	        </div>
     @endslot
     @slot('footer')
@@ -113,12 +123,14 @@ const app = feathers();
 app.configure(feathers.socketio(socket));
 
 let loader = new ldLoader({ root: "#loader" }); 
+let editLoader = new ldLoader({ root: "#edit-loader" }); 
 
 
 
 function openEditModal(e) {
 	let data = JSON.parse(e.getAttribute('data-src'));
 	$('#categoryID').val(data.id);
+	$('#editCategoryImage').attr('src', data.image);
 	$('#editCategoryModalHeading').text(`Edit Category ${data.name}`);
 	$('#categoryName').val(data.name);
 	$('#categoryDescription').val(data.description);
@@ -171,17 +183,41 @@ $('#addNewCategory').click(function () {
 
 $('#btnSaveEditedCategory').click(function (e) {
 	e.preventDefault();
+	editLoader.toggle();
+	let thisBtn = $(this);
+	let formData = new FormData();
+	let updateCategoryImage = document.querySelector('#updateCategoryImage').files[0];
 	let id  = $('#categoryID').val();
 
 	let data = {
 		name :  $('#categoryName').val(),
 		description : $('#categoryDescription').val(),
-		image : 'https://res.cloudinary.com/dpcxcsdiw/image/upload/v1575443788/mai-place/food.jpg'
+		image : $('#editCategoryImage').attr('src'),
 	};
 
+	thisBtn.attr('disabled', true);
+
+	// Check if their's an image
+	if (typeof updateCategoryImage != 'undefined') {
+		formData.append('image', updateCategoryImage);
+		fetch('/admin/uploader', {method: "POST", body: formData})
+		 	.then((resp) => resp.json())
+		 	.then((response) => {
+		 		editLoader.toggle();
+		 		data.image =  response.category_image;
+				app.service('categories').update(id, data);
+				$('#editCategoryImage').attr('src',  response.category_image);
+				thisBtn.attr('disabled', false);
+		 	});	
+	} else {
+		editLoader.toggle();
+		app.service('categories').update(id, data);
+		thisBtn.attr('disabled', false);
+	}
 
 
-	app.service('categories').update(id, data);
+
+	
 });
 
 $('#btnAddCategory').click(function (e) {
@@ -231,6 +267,5 @@ init();
 
 });
 </script>
-<script src="/plugins/bower_components/dropzone-master/dist/dropzone.js"></script>
 @endpush
 @endsection
