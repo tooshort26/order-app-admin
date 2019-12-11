@@ -20,6 +20,7 @@
 			<th>Description</th>
 			<th>Price</th>
       <th>Image</th>
+      <th>Category</th>
       <th>Actions</th>
 		</tr>
 	</thead>
@@ -99,6 +100,14 @@
                   <input type="number" class="form-control" id="editFoodPrice" placeholder="Enter the food price">
               </div>
           </div>
+          <div class="form-group">
+            <label for="categories">Category of Food</label>
+             <div class="input-group">
+                  <div class="input-group-addon"><i class="mdi mdi-food-variant"></i></div>
+                  <select id="categories-edit" class="form-control">
+                  </select>
+              </div>
+          </div>
           <div id="edit-food-images" class="row"></div>
           <br>
           <div class="form-group">
@@ -108,18 +117,6 @@
     @endslot
     @slot('footer')
     <button type="button" class="btn btn-success waves-effect" id="btnUpdateFood">Save</button>
-    @endslot
-@endcomponent
-
-@component('layouts.modal')
-  @slot('id') viewFoodImagesModal @endslot
-    @slot('title')
-        <h4 class="modal-title" id="viewImageOfFoodTitle">Food Images</h4> </div>
-    @endslot
-    @slot('body')
-        <div id="food-images" class="text-center row"></div>
-    @endslot
-    @slot('footer')
     @endslot
 @endcomponent
 
@@ -145,6 +142,7 @@
     .then((data) => {
         data.forEach((category) => {
           $('#categories').append(`<option value="${category.id}">${category.name}</option>`);
+          $('#categories-edit').append(`<option value="${category.id}">${category.name}</option>`);
         });
     });
 })();
@@ -156,6 +154,20 @@ const app = feathers();
 
 // Register socket.io to talk to server
 app.configure(feathers.socketio(socket));
+
+function openEditModal(e) {
+  let data = JSON.parse(e.getAttribute('data-src'));
+  $('#editFoodId').val(data.id);
+  $('#editFoodImageId').val(data.images[0].id);
+  $('#editFoodCategoryHeading').text(`Edit ${data.name} food`);
+  $('#editFoodName').val(data.name);
+  $('#editFoodDescription').val(data.description);
+  $('#editFoodPrice').val(data.price);
+  $('#categories-edit').val(data.category.id);
+  $('#edit-food-images').html('');
+  data.images.forEach((f) => $('#edit-food-images').append(`<div class="col-md-12"><img src="${f.image}" class="img-responsive center-block" alt="" /></div>`) );
+  $('#editFoodModal').modal('toggle');
+}
 
 $(document).ready(function () {
   let table = $('#foods').DataTable({
@@ -176,6 +188,11 @@ $(document).ready(function () {
            render : function ( data, type, full, meta) {
                return `<div class='text-center'><img width="50" src="${
                 full.images[0].image}" alt="" /></div>`;
+           }
+        },
+        {
+           render : function ( data, type, full, meta) {
+               return `<div class='text-center'>${full.category.name}</div>`;
            }
         },
         {
@@ -206,6 +223,7 @@ $('#addNewFood').click(function () {
 });
 
 
+
 $('#btnAddFood').click(function (e) {
   let formData = new FormData();
   let thisBtn = $(this);
@@ -218,7 +236,7 @@ $('#btnAddFood').click(function (e) {
     images : ['https://res.cloudinary.com/dpcxcsdiw/image/upload/v1575443788/mai-place/food.jpg']
   };
 
-  thisBtn.attr('disabled', true);
+  thisBtn.prop('disabled', true);
 
   if (typeof addFoodImages.files[0] != 'undefined') {
       Array.from(addFoodImages.files).forEach((file, index) => { 
@@ -230,13 +248,47 @@ $('#btnAddFood').click(function (e) {
       .then((response) => {
         data.images =  response.image;
         app.service('foods').create(data);
-        thisBtn.attr('disabled', false);
+        thisBtn.prop('disabled', false);
       }); 
    } else {
       app.service('foods').create(data);  
    }
+});
 
-  
+
+$('#btnUpdateFood').click(function (e) {
+    let formData = new FormData();
+    let thisBtn = $(this);
+    let updateFoodImages = document.querySelector('#updateFoodImages');
+    let id = $('#editFoodId').val();
+    let data = {
+      name : $('#editFoodName').val(),
+      description : $('#editFoodDescription').val(),
+      price : $('#editFoodPrice').val(),
+      category_id : $('#categories-edit').val()
+    };
+
+    thisBtn.prop('disabled', true);
+
+    if (typeof updateFoodImages.files[0] != 'undefined') {
+        Array.from(updateFoodImages.files).forEach((file, index) => { 
+          formData.append(`images[]`, file);
+        });
+
+        fetch('/admin/uploader', {method: "POST", body: formData})
+          .then((resp) => resp.json())
+          .then((response) => {
+             data.food_images_id = $('#editFoodImageId').val();
+             data.images = response.image;
+             $('#edit-food-images').html('')
+             $('#edit-food-images').append(`<div class="col-md-12"><img src="${response.image}" class="img-responsive center-block" alt="" /></div>`);
+             app.service('foods').update(id, data);
+             thisBtn.prop('disabled', false);
+        }); 
+    } else {
+      app.service('foods').update(id, data);
+    }
+   
 });
 
 function init() {

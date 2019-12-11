@@ -201,7 +201,7 @@ $('#btnSaveEditedCategory').click(function (e) {
 	if (typeof updateCategoryImage.files[0] != 'undefined') {
 		Array.from(updateCategoryImage.files).forEach((file, index) => { 
           formData.append(`images[]`, file);
-    });
+    	});
 		fetch('/admin/uploader', {method: "POST", body: formData})
 		 	.then((resp) => resp.json())
 		 	.then((response) => {
