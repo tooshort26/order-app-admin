@@ -48,7 +48,7 @@
           <div class="form-group">
             <label for="addFoodPrice">Food Price</label>
               <div class="input-group">
-                  <div class="input-group-addon"><i class="ti-text"></i></div>
+                  <div class="input-group-addon"><i class="mdi mdi-cash"></i></div>
                   <input type="number" class="form-control" id="addFoodPrice" placeholder="Enter the food price">
               </div>
           </div>
@@ -87,7 +87,7 @@
           <div class="form-group">
             <label for="editFoodPrice">Food Price</label>
               <div class="input-group">
-                  <div class="input-group-addon"><i class="mdi mdi-food"></i></div>
+                  <div class="input-group-addon"><i class="mdi mdi-cash"></i></div>
                   <input type="number" class="form-control" id="editFoodPrice" placeholder="Enter the food price">
               </div>
           </div>

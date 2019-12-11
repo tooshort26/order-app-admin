@@ -25,7 +25,7 @@
 	</thead>
 <tbody></tbody>
 </table>
-<p class="text-muted m-b-30"> For multiple file upload</p>
+
 
 
 @component('layouts.modal')
