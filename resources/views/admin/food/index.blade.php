@@ -1,6 +1,6 @@
 @extends('layouts.master')
-@section('title', 'Categories')
-@section('sub-title', 'List of all categories')
+@section('title', 'Foods')
+@section('sub-title', 'List of all foods')
 @section('content')
 @prepend('page-css')
 <link href="/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
@@ -10,7 +10,7 @@
 <div class="pull-right margin-bottom-3">
 	<p>
 		<button class="btn btn-info waves-effect waves-light" type="button" id="addNewCategory">
-			<span class="btn-label"><i class="fa fa-plus"></i></span>Add Category
+			<span class="btn-label"><i class="fa fa-plus"></i></span>Add Food
 		</button>
 	</p>
 </div>
@@ -19,14 +19,14 @@
 		<tr>
 			<th>Name</th>
 			<th>Description</th>
+			<th>Price</th>
 			<th>Image</th>
+			<th>Category</th>
 			<th>Actions</th>
 		</tr>
 	</thead>
 <tbody></tbody>
 </table>
-<p class="text-muted m-b-30"> For multiple file upload</p>
-
 
 @component('layouts.modal')
 	@slot('id') addCategoryModal @endslot
@@ -141,7 +141,7 @@ function openEditModal(e) {
 $(document).ready(function() {
 let table = $('#categories').DataTable({
 	ajax: {
-	    url : 'http://192.168.1.4:3030/categories',
+	    url : 'http://192.168.1.4:3030/foods',
          cache: true,
          dataSrc : '',
 	},
@@ -150,7 +150,17 @@ let table = $('#categories').DataTable({
       { data : 'description' },
       {
          render : function ( data, type, full, meta) {
-             return `<div class='text-center'><img width="50" src="${full.image}" alt="" /></div>`;
+         	return `<div class='text-center'>${full.price}.00</div>`;
+         }
+      },
+      {
+         render : function ( data, type, full, meta) {
+         	return `<div class='text-center'><img width="50" src="${full.images[0].image}" alt="" /></div>`;
+         }
+      },
+      {
+         render : function ( data, type, full, meta) {
+            return `<div class='text-center'>${full.category.name}</div>`;
          }
       },
       {
@@ -163,7 +173,6 @@ let table = $('#categories').DataTable({
                         <button aria-expanded="false" data-toggle="dropdown" class="btn btn-success dropdown-toggle waves-effect waves-light" type="button">Actions <span class="caret"></span></button>
                         <ul role="menu" class="dropdown-menu">
                             <li><a onclick="openEditModal(this)" style="cursor:pointer;" data-src='${data}'><i class="fa fa-edit"></i> Edit</a></li>
-                            <li><a href="/admin/category/${JSON.parse(data).id}/foods" data-src='${data}'><i class="fa fa-spoon"></i> Foods <span class="badge">${Object.keys(full.foods).length}</span></a></li>
                         </ul>
                  </div>
               </div>
@@ -186,7 +195,7 @@ $('#btnSaveEditedCategory').click(function (e) {
 	editLoader.toggle();
 	let thisBtn = $(this);
 	let formData = new FormData();
-	let updateCategoryImage = document.querySelector('#updateCategoryImage');
+	let updateCategoryImage = document.querySelector('#updateCategoryImage').files[0];
 	let id  = $('#categoryID').val();
 
 	let data = {
@@ -198,17 +207,15 @@ $('#btnSaveEditedCategory').click(function (e) {
 	thisBtn.attr('disabled', true);
 
 	// Check if their's an image
-	if (typeof updateCategoryImage.files[0] != 'undefined') {
-		Array.from(updateCategoryImage.files).forEach((file, index) => { 
-          formData.append(`images[]`, file);
-    });
+	if (typeof updateCategoryImage != 'undefined') {
+		formData.append('image', updateCategoryImage);
 		fetch('/admin/uploader', {method: "POST", body: formData})
 		 	.then((resp) => resp.json())
 		 	.then((response) => {
 		 		editLoader.toggle();
-		 		data.image =  response.image[0];
+		 		data.image =  response.category_image;
 				app.service('categories').update(id, data);
-				$('#editCategoryImage').attr('src',  response.image[0]);
+				$('#editCategoryImage').attr('src',  response.category_image);
 				thisBtn.attr('disabled', false);
 		 	});	
 	} else {
@@ -226,7 +233,7 @@ $('#btnAddCategory').click(function (e) {
 	e.preventDefault();
 	loader.toggle();
 	let thisBtn = $(this);
-	let categoryImage = document.querySelector('#categoryImage');
+	let categoryImage = document.querySelector('#categoryImage').files[0];
 	let formData = new FormData();
 	let data = {
 		name :  $('#addCategoryName').val(),
@@ -235,15 +242,13 @@ $('#btnAddCategory').click(function (e) {
 	};
 	thisBtn.attr('disabled', true);
 	// Check if their's an image
-	if (typeof categoryImage.files[0] != 'undefined') {
-    Array.from(categoryImage.files).forEach((file, index) => { 
-          formData.append(`images[]`, file);
-    });
+	if (typeof categoryImage != 'undefined') {
+		formData.append('image', categoryImage);
 		fetch('/admin/uploader', {method: "POST", body: formData})
 		 	.then((resp) => resp.json()).
 		 	then((response) => {
 		 		loader.toggle();
-		 		data.image = response.image[0];
+		 		data.image = response.category_image;
 				app.service('categories').create(data);
 				thisBtn.attr('disabled', false);
 		 	});	

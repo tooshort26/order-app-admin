@@ -18,6 +18,8 @@ Route::get('/', function () {
 Route::group(['prefix' => 'admin'], function () {
 	Route::resource('dashboard', 'Admin\DashboardController');
 	Route::get('/category/{id}/foods', 'Admin\CategoryController@foods');
-	Route::resource('category', 'Admin\CategoryController');
 	Route::post('/uploader' , 'Admin\CategoryController@uploader');
+	Route::resource('category', 'Admin\CategoryController');
+	Route::resource('food', 'Admin\FoodController');
+
 });

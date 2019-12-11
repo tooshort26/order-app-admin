@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Contracts\IUploader;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class CategoryController extends Controller implements IUploader
+class FoodController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +14,7 @@ class CategoryController extends Controller implements IUploader
      */
     public function index()
     {
-        return view('admin.category.index');
+        return view('admin.food.index');
     }
 
     /**
@@ -25,7 +24,7 @@ class CategoryController extends Controller implements IUploader
      */
     public function create()
     {
-        return view('admin.category.create');
+        //
     }
 
     /**
@@ -82,25 +81,5 @@ class CategoryController extends Controller implements IUploader
     public function destroy($id)
     {
         //
-    }
-
-    public function foods($id)
-    {
-        return view('admin.category.foods', compact('id'));
-    }
-
-    public function uploader(Request $request)
-    {
-       $images = [];
-       if ($request->has('images')) {
-            foreach ($request->file('images') as $index => $image) {
-                $imageName = pathinfo($image->getClientOriginalName())['filename'] . '_' . time() . '.' . $image->getClientOriginalExtension();
-                $request->images[$index]->move(public_path('/category_images'), $imageName);
-                $images['image'][$index] = '/category_images/' . $imageName;
-            }
-        return response()->json($images);
-        } else {
-            dd('no image');
-        }
     }
 }

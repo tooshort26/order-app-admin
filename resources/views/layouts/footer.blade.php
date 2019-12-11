@@ -1,4 +1,11 @@
-
+    <!-- /.container-fluid -->
+<footer class="footer text-center">{{ date('Y') }} - {{ date('Y', strtotime('+1 year')) }} | Mai Place Administrator</footer>
+</div>
+<!-- ============================================================== -->
+<!-- End Page Content -->
+<!-- ============================================================== -->
+</div>
+<!-- /#wrapper -->
     <!-- jQuery -->
     <script src="/plugins/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap Core JavaScript -->

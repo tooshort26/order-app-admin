@@ -117,7 +117,8 @@
                 <ul class="nav" id="side-menu">
                     <li> <a href="{{ route('dashboard.index') }}" class="waves-effect"><i class="ti ti-dashboard" data-icon="v"></i> <span class="hide-menu"> Dashboard </a></li>
                     <li class="devider"></li>
-                    <li> <a href="{{ route('category.index') }}" class="waves-effect"><i class="mdi mdi-food-variant" data-icon="v"></i> <span class="hide-menu">Food Category</a></li>
+                    <li> <a href="{{ route('category.index') }}" class="waves-effect"><i class="mdi mdi-food-variant" data-icon="v"></i> <span class="hide-menu">Categories</a></li>
+                    <li> <a href="{{ route('food.index') }}" class="waves-effect"><i class="mdi mdi-food" data-icon="v"></i> <span class="hide-menu">Foods</a></li>
                 </ul>
             </div>
         </div>

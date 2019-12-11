@@ -9,7 +9,7 @@
 <div class="pull-right margin-bottom-3">
 	<p>
 		<button class="btn btn-info waves-effect waves-light" type="button" id="addNewFood">
-			<span class="btn-label"><i class="fa fa-plus"></i></span>Add Food
+			<span class="btn-label"><i class="fa fa-plus"></i></span>Add food for this category
 		</button>
 	</p>
 </div>
@@ -19,6 +19,7 @@
 			<th>Name</th>
 			<th>Description</th>
 			<th>Price</th>
+      <th>Image</th>
       <th>Actions</th>
 		</tr>
 	</thead>
@@ -52,7 +53,8 @@
               </div>
           </div>
           <div class="form-group">
-              Food image section
+                <label>Food Image</label>
+                <input name="file" type="file" id="addFoodImages" required /> 
           </div>
     @endslot
     @slot('footer')
@@ -68,6 +70,7 @@
     @slot('body')
       <form onSubmit="return false;">
         <input type="hidden" id="editFoodId">
+        <input type="hidden" id="editFoodImageId">
           <div class="form-group">
               <label for="editFoodName">Food Name</label>
               <div class="input-group">
@@ -88,8 +91,11 @@
                   <input type="number" class="form-control" id="editFoodPrice" placeholder="Enter the food price">
               </div>
           </div>
+          <div id="edit-food-images" class="row"></div>
+          <br>
           <div class="form-group">
-              Food image section
+                <label>Food Image</label>
+                <input name="file" type="file" id="updateFoodImages" required /> 
           </div>
     @endslot
     @slot('footer')
@@ -137,18 +143,22 @@ app.configure(feathers.socketio(socket));
 function openEditModal(e) {
   let data = JSON.parse(e.getAttribute('data-src'));
   $('#editFoodId').val(data.id);
+  $('#editFoodImageId').val(data.images[0].id);
   $('#editFoodCategoryHeading').text(`Edit ${data.name} food`);
   $('#editFoodName').val(data.name);
   $('#editFoodDescription').val(data.description);
   $('#editFoodPrice').val(data.price);
+  $('#edit-food-images').html('');
+  data.images.forEach((f) => $('#edit-food-images').append(`<div class="col-md-12"><img src="${f.image}" class="img-responsive center-block" alt="" /></div>`) );
   $('#editFoodModal').modal('toggle');
 }
 
 function openViewImageModal(e) {
   let food = JSON.parse(e.getAttribute('data-src'));
+
   $('#viewImageOfFoodTitle').text(`Food images of ${food.name}`);
   $('#food-images').html('');
-  food.images.forEach((f) => $('#food-images').append(`<div class="col-md-3"><img src="${f.image}" class="img-responsive" alt="" /></div>`) );
+  food.images.forEach((f) => $('#food-images').append(`<div class="col-md-12"><img src="${f.image}" class="img-responsive center-block" alt="" /></div>`) );
   $('#viewFoodImagesModal').modal('toggle');
 }
 
@@ -158,11 +168,13 @@ $(document).ready(function() {
       success : (category) => {
         $('.page-title').text(`${category.name} Foods`);
         document.title = `Mai Place | ${category.name} Foods`;
+        $('#addNewFood').text(`Add food for ${category.name} category`);
       }
 });
+
 let table = $('#foods').DataTable({
 	ajax: {
-	    url : 'http://192.168.1.4:3030/foods?category_id={{$id}}',
+	      url : 'http://192.168.1.4:3030/foods?category_id={{$id}}',
         cache: true,
         dataSrc : '',
 	},
@@ -175,6 +187,11 @@ let table = $('#foods').DataTable({
          }
       },
       {
+         render : function ( data, type, full, meta) {
+             return `<div class='text-center'><img width="50" src="${full.images[0].image}" alt="" /></div>`;
+         }
+      },
+      {
          sortable : false,
          render : function ( data, type, full, meta) {
           var data = JSON.stringify(full);
@@ -184,7 +201,7 @@ let table = $('#foods').DataTable({
                         <button aria-expanded="false" data-toggle="dropdown" class="btn btn-success dropdown-toggle waves-effect waves-light" type="button">Actions <span class="caret"></span></button>
                         <ul role="menu" class="dropdown-menu">
                             <li><a onclick="openEditModal(this)" style="cursor:pointer;" data-src='${data}'><i class="fa fa-edit"></i> Edit</a></li>
-                            <li><a onclick="openViewImageModal(this)" style="cursor:pointer;" data-src='${data}'><i class="fa fa-eye"></i> Images</a></li>
+                            <li><a onclick="openViewImageModal(this)" style="cursor:pointer;" data-src='${data}'><i class="fa fa-eye"></i> Images <span class="badge">${Object.keys(full.images).length}</span> </a></li>
                         </ul>
                  </div>
               </div>
@@ -205,25 +222,60 @@ $('#addNewFood').click(function (e) {
 
 
 $('#btnAddFood').click(function (e) {
+    let formData = new FormData();
+    let addFoodImages = document.querySelector('#addFoodImages');
     let data = {
       name : $('#addFoodName').val(),
       description : $('#addFoodDescription').val(),
       category_id : {{ $id }},
       price : $('#addFoodPrice').val(),
-      image : 'https://res.cloudinary.com/dpcxcsdiw/image/upload/v1575443788/mai-place/food.jpg',
+      images : ['https://res.cloudinary.com/dpcxcsdiw/image/upload/v1575443788/mai-place/food.jpg'],
     };
+    
+    if (typeof addFoodImages.files[0] != 'undefined') {
+      Array.from(addFoodImages.files).forEach((file, index) => { 
+        formData.append(`images[]`, file);
+      });
 
-    app.service('foods').create(data);
+      fetch('/admin/uploader', {method: "POST", body: formData})
+        .then((resp) => resp.json()).
+        then((response) => {
+           data.images = response.image;
+           app.service('foods').create(data);
+        });   
+    } else {
+        app.service('foods').create(data);
+    }
 });
 
-$("#btnUpdateFood").click(function (e) {
+$('#btnUpdateFood').click(function (e) {
+    let formData = new FormData();
+    let updateFoodImages = document.querySelector('#updateFoodImages');
     let id = $('#editFoodId').val();
     let data = {
       name : $('#editFoodName').val(),
       description : $('#editFoodDescription').val(),
-      price : $('#editFoodPrice').val()
+      price : $('#editFoodPrice').val(),
     };
-    app.service('foods').update(id, data);
+
+    if (typeof updateFoodImages.files[0] != 'undefined') {
+        Array.from(updateFoodImages.files).forEach((file, index) => { 
+          formData.append(`images[]`, file);
+        });
+
+        fetch('/admin/uploader', {method: "POST", body: formData})
+          .then((resp) => resp.json())
+          .then((response) => {
+             data.food_images_id = $('#editFoodImageId').val();
+             data.images = response.image;
+             $('#edit-food-images').html('')
+             $('#edit-food-images').append(`<div class="col-md-12"><img src="${response.image}" class="img-responsive center-block" alt="" /></div>`);
+             app.service('foods').update(id, data);
+        }); 
+    } else {
+      app.service('foods').update(id, data);
+    }
+   
 });
 
 function init() {
@@ -232,7 +284,7 @@ function init() {
     table.ajax.reload();
   });
 
-  app.service('foods').on('updated', _ => {
+  app.service('foods').on('updated', (data) => {
     swal("Success!", `Succesfully update a food`, "success");
     table.ajax.reload();
   });

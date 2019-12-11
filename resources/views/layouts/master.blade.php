@@ -17,12 +17,5 @@
             </div>
         </div>
     </div>
-    <!-- /.container-fluid -->
-<footer class="footer text-center"> 2017 &copy; Ample Admin brought to you by themedesigner.in </footer>
-</div>
-<!-- ============================================================== -->
-<!-- End Page Content -->
-<!-- ============================================================== -->
-</div>
-<!-- /#wrapper -->
+
 @include('layouts.footer')
