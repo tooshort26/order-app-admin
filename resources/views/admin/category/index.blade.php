@@ -19,7 +19,7 @@
 		<tr>
 			<th>Name</th>
 			<th>Description</th>
-			<th>Image</th>
+	{{-- 		<th>Image</th> --}}
 			<th>Actions</th>
 		</tr>
 	</thead>
@@ -97,7 +97,8 @@
     @endslot
 @endcomponent
 @push('page-scripts')
-<script src="/plugins/bower_components/datatables/jquery.dataTables.min.js"></script>
+{{-- <script src="/plugins/bower_components/datatables/jquery.dataTables.min.js"></script> --}}
+<script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 <!-- start - This is for export functionality only -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
@@ -114,7 +115,7 @@
 <!-- end - This is for export functionality only -->
 <script>
 // Socket.io setup
-const socket = io('http://192.168.1.4:3030');
+const socket = io('http://192.168.1.7:3030');
 
 // Init feathers app
 const app = feathers();
@@ -141,18 +142,18 @@ function openEditModal(e) {
 $(document).ready(function() {
 let table = $('#categories').DataTable({
 	ajax: {
-	    url : 'http://192.168.1.4:3030/categories',
+	    url : 'http://192.168.1.7:3030/categories',
          cache: true,
          dataSrc : '',
 	},
     columns: [
       { data : 'name' },
       { data : 'description' },
-      {
-         render : function ( data, type, full, meta) {
-             return `<div class='text-center'><img width="50" src="${full.image}" alt="" /></div>`;
-         }
-      },
+      // {
+      //    render : function ( data, type, full, meta) {
+      //        return `<div class='text-center'><img width="50" src="${full.image}" alt="" /></div>`;
+      //    }
+      // },
       {
          sortable : false,
          render : function ( data, type, full, meta) {

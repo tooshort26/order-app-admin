@@ -21,5 +21,12 @@ Route::group(['prefix' => 'admin'], function () {
 	Route::post('/uploader' , 'Admin\CategoryController@uploader');
 	Route::resource('category', 'Admin\CategoryController');
 	Route::resource('food', 'Admin\FoodController');
-
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('logout', 'Auth\LoginController@logout');

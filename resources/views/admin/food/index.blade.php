@@ -138,7 +138,7 @@
 <script>
 (function(){
   // Initialize the list of categories
-  fetch('http://192.168.1.4:3030/categories').then((res) => res.json())
+  fetch('http://192.168.1.7:3030/categories').then((res) => res.json())
     .then((data) => {
         data.forEach((category) => {
           $('#categories').append(`<option value="${category.id}">${category.name}</option>`);
@@ -147,7 +147,7 @@
     });
 })();
 // Socket.io setup
-const socket = io('http://192.168.1.4:3030');
+const socket = io('http://192.168.1.7:3030');
 
 // Init feathers app
 const app = feathers();
@@ -172,7 +172,7 @@ function openEditModal(e) {
 $(document).ready(function () {
   let table = $('#foods').DataTable({
     ajax: {
-        url : 'http://192.168.1.4:3030/foods',
+        url : 'http://192.168.1.7:3030/foods',
            cache: true,
            dataSrc : '',
     },
@@ -251,7 +251,8 @@ $('#btnAddFood').click(function (e) {
         thisBtn.prop('disabled', false);
       }); 
    } else {
-      app.service('foods').create(data);  
+      app.service('foods').create(data);
+      thisBtn.prop('disabled', true);
    }
 });
 
@@ -287,6 +288,7 @@ $('#btnUpdateFood').click(function (e) {
         }); 
     } else {
       app.service('foods').update(id, data);
+      thisBtn.prop('disabled', false);
     }
    
 });

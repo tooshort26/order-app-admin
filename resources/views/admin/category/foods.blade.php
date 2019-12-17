@@ -132,7 +132,7 @@
 <!-- end - This is for export functionality only -->
 <script>
 // Socket.io setup
-const socket = io('http://192.168.1.4:3030');
+const socket = io('http://192.168.1.7:3030');
 
 // Init feathers app
 const app = feathers();
@@ -164,7 +164,7 @@ function openViewImageModal(e) {
 
 $(document).ready(function() {
   $.ajax({
-      url : 'http://192.168.1.4:3030/categories/{{$id}}',
+      url : 'http://192.168.1.7:3030/categories/{{$id}}',
       success : (category) => {
         $('.page-title').text(`${category.name} Foods`);
         document.title = `Mai Place | ${category.name} Foods`;
@@ -174,7 +174,7 @@ $(document).ready(function() {
 
 let table = $('#foods').DataTable({
 	ajax: {
-	      url : 'http://192.168.1.4:3030/foods?category_id={{$id}}',
+	      url : 'http://192.168.1.7:3030/foods?category_id={{$id}}',
         cache: true,
         dataSrc : '',
 	},
