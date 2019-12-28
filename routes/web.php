@@ -12,11 +12,17 @@
 */
 
 Route::get('/', function () {
+	return redirect('login');
     return view('welcome');
 });
 
 Route::group(['prefix' => 'admin'], function () {
 	Route::resource('dashboard', 'Admin\DashboardController');
+	Route::get('/account/settings', 'Admin\AccountSettingController@edit')
+		->name('account.setting');
+	Route::put('/account/settings', 'Admin\AccountSettingController@update')
+		->name('account.setting.update');
+
 	Route::get('/category/{id}/foods', 'Admin\CategoryController@foods');
 	Route::post('/uploader' , 'Admin\CategoryController@uploader');
 	Route::resource('category', 'Admin\CategoryController');

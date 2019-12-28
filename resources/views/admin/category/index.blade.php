@@ -115,7 +115,7 @@
 <!-- end - This is for export functionality only -->
 <script>
 // Socket.io setup
-const socket = io('http://192.168.1.7:3030');
+const socket = io('http://192.168.1.3:3030');
 
 // Init feathers app
 const app = feathers();
@@ -142,7 +142,7 @@ function openEditModal(e) {
 $(document).ready(function() {
 let table = $('#categories').DataTable({
 	ajax: {
-	    url : 'http://192.168.1.7:3030/categories',
+	    url : 'http://192.168.1.3:3030/categories',
          cache: true,
          dataSrc : '',
 	},
@@ -174,7 +174,36 @@ let table = $('#categories').DataTable({
     ],
     dom: 'Bfrtip',
     buttons: [
-        'copy', 'csv', 'excel', 'pdf', 'print'
+        {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [ 0, 1]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: [ 0, 1]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: [ 0, 1 ]
+                }
+            },
+            {
+                extend: 'csvHtml5',
+                exportOptions: {
+                    columns: [ 0, 1 ]
+                }
+            },
+            {
+                extend: 'print',
+                exportOptions: {
+                    columns: [ 0, 1 ]
+                }
+            }
     ]
 });
 

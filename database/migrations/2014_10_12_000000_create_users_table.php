@@ -19,6 +19,8 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('profile')->default('https://res.cloudinary.com/dpcxcsdiw/image/upload/v1577521445/mai-place/mai_place_logo.png');
+            $table->string('mobile_no');
             $table->rememberToken();
             $table->timestamps();
         });

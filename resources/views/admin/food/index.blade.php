@@ -138,7 +138,7 @@
 <script>
 (function(){
   // Initialize the list of categories
-  fetch('http://192.168.1.7:3030/categories').then((res) => res.json())
+  fetch('http://192.168.1.3:3030/categories').then((res) => res.json())
     .then((data) => {
         data.forEach((category) => {
           $('#categories').append(`<option value="${category.id}">${category.name}</option>`);
@@ -147,7 +147,7 @@
     });
 })();
 // Socket.io setup
-const socket = io('http://192.168.1.7:3030');
+const socket = io('http://192.168.1.3:3030');
 
 // Init feathers app
 const app = feathers();
@@ -172,7 +172,7 @@ function openEditModal(e) {
 $(document).ready(function () {
   let table = $('#foods').DataTable({
     ajax: {
-        url : 'http://192.168.1.7:3030/foods',
+        url : 'http://192.168.1.3:3030/foods',
            cache: true,
            dataSrc : '',
     },
@@ -214,7 +214,36 @@ $(document).ready(function () {
       ],
       dom: 'Bfrtip',
       buttons: [
-          'copy', 'csv', 'excel', 'pdf', 'print'
+          {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 4]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 4]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 4 ]
+                }
+            },
+            {
+                extend: 'csvHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 4 ]
+                }
+            },
+            {
+                extend: 'print',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 4 ]
+                }
+            }
       ]
   });
 
