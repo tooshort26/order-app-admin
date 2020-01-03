@@ -108,14 +108,12 @@
 <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
-<script src="https://unpkg.com/@feathersjs/client@^4.3.0/dist/feathers.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/loadingio/ldLoader@v1.0.0/dist/ldld.min.js"></script>
 
 <!-- end - This is for export functionality only -->
 <script>
 // Socket.io setup
-const socket = io('http://192.168.1.3:3030');
+const socket = io('http://192.168.1.10:3030');
 
 // Init feathers app
 const app = feathers();
@@ -142,7 +140,7 @@ function openEditModal(e) {
 $(document).ready(function() {
 let table = $('#categories').DataTable({
 	ajax: {
-	    url : 'http://192.168.1.3:3030/categories',
+	    url : 'http://192.168.1.10:3030/categories',
          cache: true,
          dataSrc : '',
 	},

@@ -10,10 +10,15 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="white-box">
-                <h3 class="box-title">@yield('sub-title')</h3> 
-                    @yield('content')
-                </div>
+                @if(Str::contains(url()->current(), 'dashboard'))
+                    @yield('dashboard-content')
+                @else
+                    <div class="white-box">
+                        <h3 class="box-title">@yield('sub-title')</h3> 
+                            @yield('content')
+                    </div>
+                @endif
+                
             </div>
         </div>
     </div>

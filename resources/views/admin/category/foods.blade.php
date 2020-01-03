@@ -127,12 +127,10 @@
 <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
-<script src="https://unpkg.com/@feathersjs/client@^4.3.0/dist/feathers.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
 <!-- end - This is for export functionality only -->
 <script>
 // Socket.io setup
-const socket = io('http://192.168.1.3:3030');
+const socket = io('http://192.168.1.10:3030');
 
 // Init feathers app
 const app = feathers();
@@ -164,7 +162,7 @@ function openViewImageModal(e) {
 
 $(document).ready(function() {
   $.ajax({
-      url : 'http://192.168.1.3:3030/categories/{{$id}}',
+      url : 'http://192.168.1.10:3030/categories/{{$id}}',
       success : (category) => {
         $('.page-title').text(`${category.name} Foods`);
         document.title = `Mai Place | ${category.name} Foods`;
@@ -174,7 +172,7 @@ $(document).ready(function() {
 
 let table = $('#foods').DataTable({
 	ajax: {
-	      url : 'http://192.168.1.3:3030/foods?category_id={{$id}}',
+	      url : 'http://192.168.1.10:3030/foods?category_id={{$id}}',
         cache: true,
         dataSrc : '',
 	},

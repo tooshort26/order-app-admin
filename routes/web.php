@@ -27,6 +27,7 @@ Route::group(['prefix' => 'admin'], function () {
 	Route::post('/uploader' , 'Admin\CategoryController@uploader');
 	Route::resource('category', 'Admin\CategoryController');
 	Route::resource('food', 'Admin\FoodController');
+	Route::resource('order', 'Admin\OrderController');
 });
 Auth::routes();
 
