@@ -9,15 +9,19 @@
 <table id="orders" class="display table table-bordered" cellspacing="0" width="100%">
 	<thead>
 		<tr>
-			<th>Customer name</th>
-			<th>Orders</th>
-			<th>Total Cost</th>
+			<th>Customer Name</th>
+      <th>Order #</th>
+			<th>Order Type</th>
+      <th>Address</th>
+      <th>Phone Number</th>
+			<th>Order At</th>
       <th>Actions</th>
 		</tr>
 	</thead>
 <tbody></tbody>
 </table>
 
+<div id='print-section'></div>
 
 @push('page-scripts')
 <script src="/plugins/bower_components/datatables/jquery.dataTables.min.js"></script>
@@ -33,7 +37,7 @@
 <!-- end - This is for export functionality only -->
 <script>
 // Socket.io setup
-const socket = io('http://192.168.1.10:3030');
+const socket = io('http://192.168.1.4:3030');
 
 // Init feathers app
 const app = feathers();
@@ -41,39 +45,93 @@ const app = feathers();
 // Register socket.io to talk to server
 app.configure(feathers.socketio(socket));
 
+const capitalize = (string) => {
+  let spacePosition = string.indexOf(' ');
+  return `
+    ${string.charAt(0).toUpperCase()}${string.substr(1, spacePosition - 1)}
+    ${string.charAt(spacePosition + 1).toUpperCase()}${string.substr(spacePosition + 2 , string.length)}
+  `; 
+};
+
+const printReceipt = (data) => {
+  console.log(data);
+  let orders = data.orders;
+  $('#print-section').append(`
+     <form action="/admin/order/print" method='POST' id='printForm'>
+       <input type='hidden' name='customer_name' value='${data.customer.firstname} ${data.customer.lastname}'>
+       <input type='hidden' name='customer_address' value='${data.customer.address}'>
+       <input type='hidden' name='customer_phone_number' value='${data.customer.phone_number}'>
+       <input type='hidden' name='customer_order_date' value='${data.created_at}'>
+       <input type='hidden' name='customer_orders' value='${JSON.stringify(data.foods)}'>
+       <input type='hidden' name='order_no' id='customerOrderNo' value='${data.order_no}'>
+     </form>
+  `);
+
+  $('#printForm').trigger('submit');
+
+};
 
 $(document).ready(function () {
   let table = $('#orders').DataTable({
     ajax: {
-        url : 'http://192.168.1.10:3030/foods',
+           url : 'http://192.168.1.4:3030/orders',
            cache: true,
            dataSrc : '',
     },
       columns: [
-        { data : 'name' },
-        { data : 'description' },
-        {
-           render : function ( data, type, full, meta) {
-               return `<div class='text-center'><b>PHP: ${full.price}.00</b></div>`;
-           }
+        { render : function (data, type, full, meta) {
+            var data = full;
+            let customerName = `${data.customer.firstname} ${data.customer.lastname}`; 
+            return `<div class='text-center'>${capitalize(customerName)}</div>`;
+          } 
         },
-        {
+        { render : function (data, type, full, meta) {
+            var data = full;
+            return `<div class='text-center'><b>${data.order_no}</b></div>`;
+          } 
+        },
+        { render : function (data, type, full, meta) {
+            var data = full;
+            let length = data.order_type.length - 1;
+            return `<div class='text-center'><b>${data.order_type.charAt(0).toUpperCase()}${data.order_type.substr(1, length)}</b></div>`;
+          } 
+        },
+        { render : function (data, type, full, meta) {
+            var data = full;
+            return `<div class='text-center'>${capitalize(data.customer.address)}</div>`;
+          } 
+        },
+        { render : function (data, type, full, meta) {
+            var data = full;
+            return `<div class='text-center'>${data.customer.phone_number}</div>`;
+          } 
+        },
+       { render : function (data, type, full, meta) {
+            var data = full;
+            return `<div class='text-center'>${data.created_at}</div>`;
+          } 
+        },
+         {
            sortable : false,
            render : function ( data, type, full, meta) {
-            var data = JSON.stringify(full);
-               return `
-                <div class="text-center">
-                  <div class="btn-group m-r-10">
-                          <button aria-expanded="false" data-toggle="dropdown" class="btn btn-success dropdown-toggle waves-effect waves-light" type="button">Actions <span class="caret"></span></button>
-                          <ul role="menu" class="dropdown-menu">
-                              <li><a onclick="openEditModal(this)" style="cursor:pointer;" data-src='${data}'><i class="fa fa-eye"></i> View</a></li>
-                              <li><a onclick="openEditModal(this)" style="cursor:pointer;" data-src='${data}'><i class="fa fa-print"></i> Print</a></li>
-                          </ul>
-                   </div>
-                </div>
-                `;
+            var data = JSON.parse(JSON.stringify(full));
+            let customerId = data.customer_id;
+            let orderNo = data.order_no;
+                   return `
+                    <div class="text-center">
+                      <div class="btn-group m-r-10">
+                              <button aria-expanded="false" data-toggle="dropdown" class="btn btn-success dropdown-toggle waves-effect waves-light" type="button">Actions <span class="caret"></span></button>
+                              <ul role="menu" class="dropdown-menu">
+                                  <li><a href='/admin/order/${customerId}/${orderNo}' ><i class="fa fa-eye"></i> View Order</a></li>
+                                  <li><a style="cursor:pointer;" onclick='printReceipt(${JSON.stringify(data)})'><i class="fa fa-print"></i> Print Receipt</a></li>
+                              </ul>
+                       </div>
+                    </div>
+                    `;
+            
              }
         }
+       
       ],
       dom: 'Bfrtip',
       buttons: [
@@ -117,6 +175,9 @@ $(document).ready(function () {
 
 function init() {
 
+  app.service('orders').on('created', (orderNo) => {
+    table.ajax.reload();
+  });
  
 }
 

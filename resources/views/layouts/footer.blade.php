@@ -27,7 +27,7 @@
 <!-- end - This is for export functionality only -->
 <script>
 // Socket.io setup
-const mSocket = io('http://192.168.1.10:3030');
+const mSocket = io('http://192.168.1.4:3030');
 
 // Init feathers app
 const mApp = feathers();
@@ -42,7 +42,7 @@ mApp.configure(feathers.socketio(mSocket));
 function listeningToAnOrder() {
     mApp.service('orders').on('created', (order_no) => {
 	        $.toast({
-	                text: "Click this <a href='/admin/dashboard'>link</a> to view the order details.", // Text that is to be shown in the toast
+	                text: "Click this <a href='/admin/order'>link</a> to view all orders.", // Text that is to be shown in the toast
 	                heading: `New Order # ${order_no}`, // Optional heading to be shown on the toast
 	                icon: 'success', // Type of toast icon
 	                showHideTransition: 'slide', // fade, slide or plain

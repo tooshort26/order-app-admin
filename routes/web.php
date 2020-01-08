@@ -27,7 +27,11 @@ Route::group(['prefix' => 'admin'], function () {
 	Route::post('/uploader' , 'Admin\CategoryController@uploader');
 	Route::resource('category', 'Admin\CategoryController');
 	Route::resource('food', 'Admin\FoodController');
-	Route::resource('order', 'Admin\OrderController');
+	// Route::resource('order', 'Admin\OrderController');
+	Route::get('order', 'Admin\OrderController@index')->name('order.index');
+	Route::get('order/{customerId}/{orderNo}', 'Admin\OrderController@show')
+				->name('order.show');
+	Route::post('order/print', 'Admin\OrderPrintController')->name('order.print');
 });
 Auth::routes();
 

@@ -45,12 +45,12 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  order_no int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($customerId, $orderNo)
     {
-        //
+        return view('admin.order.show', compact('customerId', 'orderNo'));
     }
 
     /**
