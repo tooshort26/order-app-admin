@@ -11,10 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-	return redirect('login');
-    return view('welcome');
-});
+Route::get('/', 'WelcomeController@index');
 
 Route::group(['prefix' => 'admin'], function () {
 	Route::resource('dashboard', 'Admin\DashboardController');
