@@ -27,7 +27,7 @@
 <!-- end - This is for export functionality only -->
 <script>
 // Socket.io setup
-const mSocket = io('http://192.168.1.4:3030');
+const mSocket = io('https://mai-place-api.herokuapp.com/');
 
 // Init feathers app
 const mApp = feathers();

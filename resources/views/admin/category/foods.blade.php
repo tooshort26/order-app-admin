@@ -130,7 +130,7 @@
 <!-- end - This is for export functionality only -->
 <script>
 // Socket.io setup
-const socket = io('http://192.168.1.4:3030');
+const socket = io('https://mai-place-api.herokuapp.com/');
 
 // Init feathers app
 const app = feathers();
@@ -162,7 +162,7 @@ function openViewImageModal(e) {
 
 $(document).ready(function() {
   $.ajax({
-      url : 'http://192.168.1.4:3030/categories/{{$id}}',
+      url : 'https://mai-place-api.herokuapp.com/categories/{{$id}}',
       success : (category) => {
         $('.page-title').text(`${category.name} Foods`);
         document.title = `Mai Place | ${category.name} Foods`;
@@ -172,7 +172,7 @@ $(document).ready(function() {
 
 let table = $('#foods').DataTable({
 	ajax: {
-	      url : 'http://192.168.1.4:3030/foods?category_id={{$id}}',
+	      url : 'https://mai-place-api.herokuapp.com/foods?category_id={{$id}}',
         cache: true,
         dataSrc : '',
 	},

@@ -78,7 +78,7 @@
 @push('page-scripts')
 <script>
 // Socket.io setup
-const socket = io('http://192.168.1.4:3030');
+const socket = io('https://mai-place-api.herokuapp.com/');
 
 // Init feathers app
 const app = feathers();
@@ -151,7 +151,7 @@ $(document).ready(function () {
   };
 
   $.ajax({
-    url : `http://192.168.1.4:3030/customer/receipt/${customerId}/${orderNo}`,
+    url : `https://mai-place-api.herokuapp.com/customer/receipt/${customerId}/${orderNo}`,
     type : 'GET',
     success : function (response) {
       displayDataDynamically(response);
