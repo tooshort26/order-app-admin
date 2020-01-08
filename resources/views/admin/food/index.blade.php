@@ -136,7 +136,7 @@
 <script>
 (function(){
   // Initialize the list of categories
-  fetch('http://192.168.1.4:3030/categories').then((res) => res.json())
+  fetch('https://mai-place-api.herokuapp.com/categories').then((res) => res.json())
     .then((data) => {
         data.forEach((category) => {
           $('#categories').append(`<option value="${category.id}">${category.name}</option>`);
