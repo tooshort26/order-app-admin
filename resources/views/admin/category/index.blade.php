@@ -113,7 +113,7 @@
 <!-- end - This is for export functionality only -->
 <script>
 // Socket.io setup
-const socket = io('https://mai-place-api.herokuapp.com/');
+const socket = io(window.api_url);
 
 // Init feathers app
 const app = feathers();
@@ -140,7 +140,7 @@ function openEditModal(e) {
 $(document).ready(function() {
 let table = $('#categories').DataTable({
 	ajax: {
-	    url : 'https://mai-place-api.herokuapp.com/categories',
+	    url :  window.api_url +'categories',
          cache: true,
          dataSrc : '',
 	},

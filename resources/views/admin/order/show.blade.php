@@ -31,6 +31,14 @@
       <span id='customer-order-date'></span>
     </div>
   </div>
+  <br>
+  <div class="row">
+    <div class="col-lg-6 text-left mt-">
+      <b>Order type : </b>
+      <br>
+      <span id='customer-order-type'></span>
+    </div>
+  </div>
 </div>
 
 <br>
@@ -69,6 +77,7 @@
       <input type='hidden' name='customer_order_date' id='customerOrderDate'>
       <input type='hidden' name='customer_orders' id='customerOrders'>
       <input type='hidden' name='order_no' id='customerOrderNo'>
+      <input type='hidden' name='order_type' id='customerOrderType'>
       <input type='submit' class='btn btn-primary btn-block' value='PRINT'>  
     </form>
   </div>
@@ -78,7 +87,7 @@
 @push('page-scripts')
 <script>
 // Socket.io setup
-const socket = io('https://mai-place-api.herokuapp.com/');
+const socket = io(window.api_url);
 
 // Init feathers app
 const app = feathers();
@@ -106,6 +115,7 @@ $(document).ready(function () {
     let customerAddress     = capitalize(data.customer.address);
     let customerPhoneNumber = data.customer.phone_number;
     let customerOrderDate =  data.created_at;
+    let customerOrderType = data.order_type;
     
 
     $('#customerName').val(`${data.customer.firstname} ${data.customer.lastname}`);
@@ -114,44 +124,39 @@ $(document).ready(function () {
     $('#customerOrderDate').val(customerOrderDate);
     $('#customerOrders').val(JSON.stringify(data.foods));
     $('#customerOrderNo').val(data.order_no);
-    
+    $('#customerOrderType').val(data.order_type);
 
     document.querySelector('#customer-name').innerHTML = customerName;
     document.querySelector('#customer-address').innerHTML = customerAddress;
     document.querySelector('#customer-phone-number').innerHTML = customerPhoneNumber;
     document.querySelector('#customer-order-date').innerHTML = customerOrderDate;
+    document.querySelector('#customer-order-type').innerHTML = customerOrderType.toUpperCase();
 
     data.foods.forEach((order) => {
       subTotal += order.order_food[0].price * order.quantity;
       $('#orders').append(`
           <tr>
             <td>${order.order_food[0].name}</td>
-            <td>P${order.order_food[0].price}</td>
+            <td>&#8369;${order.order_food[0].price}.00</td>
             <td>${order.quantity}</td>
-            <td>P${order.order_food[0].price * order.quantity}</td>
+            <td>&#8369;${order.order_food[0].price * order.quantity}.00</td>
           </tr>
       `);
     });
     $('#orders').append(`
-        <tr>
-          <td></td>
-          <td></td>
-          <td><b>Subtotal</b></td>
-          <td>P${subTotal}</td>
-        </tr>
 
         <tr>
           <td></td>
           <td></td>
           <td><b>Total</b></td>
-          <td>P${subTotal}</td>
+          <td>&#8369;${subTotal}.00</td>
         </tr>
 
     `);
   };
 
   $.ajax({
-    url : `https://mai-place-api.herokuapp.com/customer/receipt/${customerId}/${orderNo}`,
+    url : `${window.api_url}customer/receipt/${customerId}/${orderNo}`,
     type : 'GET',
     success : function (response) {
       displayDataDynamically(response);

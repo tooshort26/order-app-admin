@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title', 'Orders')
-@section('sub-title', 'List of all incoming orders')
+@section('sub-title', 'List of all cancelled orders')
 @section('content')
 @prepend('page-css')
 <link href="/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
@@ -63,21 +63,16 @@ const printReceipt = (data) => {
        <input type='hidden' name='customer_order_date' value='${data.created_at}'>
        <input type='hidden' name='customer_orders' value='${JSON.stringify(data.foods)}'>
        <input type='hidden' name='order_no' id='customerOrderNo' value='${data.order_no}'>
-       <input type='hidden' name='order_type' id='customerOrderNo' value='${data.order_type}'>
      </form>
   `);
 
   $('#printForm').trigger('submit');
 };
 
-const passToPrepareOrder = (customer_id, order_no) => {
-  app.service('orders').update(order_no, { customer_id : customer_id, status : 'prepare' });
-};
-
 $(document).ready(function () {
   let table = $('#orders').DataTable({
     ajax: {
-           url : window.api_url + 'orders',
+           url : window.api_url + 'cancelled/order',
            cache: true,
            dataSrc : '',
     },
@@ -85,7 +80,7 @@ $(document).ready(function () {
         { render : function (data, type, full, meta) {
             var data = full;
             let customerName = `${data.customer.firstname} ${data.customer.lastname}`; 
-            return `<div class='text-center'><a style='cursor:pointer;' onclick='passToPrepareOrder(${data.customer.id}, ${data.order_no})' class='text-underline'><u>${capitalize(customerName)}</u></a></div>`;
+            return `<div class='text-center'>${capitalize(customerName)}</div>`;
           } 
         },
         { render : function (data, type, full, meta) {
@@ -125,8 +120,7 @@ $(document).ready(function () {
                       <div class="btn-group m-r-10">
                               <button aria-expanded="false" data-toggle="dropdown" class="btn btn-success dropdown-toggle waves-effect waves-light" type="button">Actions <span class="caret"></span></button>
                               <ul role="menu" class="dropdown-menu">
-                                  <li><a href='/admin/order/${customerId}/${orderNo}' ><i class="fa fa-eye"></i> View Order</a></li>
-                                  <li><a style="cursor:pointer;" onclick='printReceipt(${JSON.stringify(data)})'><i class="fa fa-print"></i> Print Receipt</a></li>
+                                  <li><a href='/admin/order/${customerId}/${orderNo}' ><i class="fa fa-eye"></i> View Cancelled Order</a></li>
                               </ul>
                        </div>
                     </div>
@@ -177,15 +171,12 @@ $(document).ready(function () {
 
 
 function init() {
-
-  app.service('orders').on('created', (orderNo) => {
-    table.ajax.reload();
-  });
-
   app.service('orders').on('updated', (order) => {
-    table.ajax.reload();
-    swal("Success!", `Succesfully pass the order to prepare. `, "success");
+    if(order.status == 'cancelled') {
+      table.ajax.reload();  
+    }
   });
+
 }
 
 init();

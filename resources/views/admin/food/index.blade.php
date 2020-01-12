@@ -136,7 +136,7 @@
 <script>
 (function(){
   // Initialize the list of categories
-  fetch('https://mai-place-api.herokuapp.com/categories').then((res) => res.json())
+  fetch(window.api_url + 'categories').then((res) => res.json())
     .then((data) => {
         data.forEach((category) => {
           $('#categories').append(`<option value="${category.id}">${category.name}</option>`);
@@ -145,7 +145,7 @@
     });
 })();
 // Socket.io setup
-const socket = io('https://mai-place-api.herokuapp.com/');
+const socket = io(window.api_url);
 
 // Init feathers app
 const app = feathers();
@@ -170,7 +170,7 @@ function openEditModal(e) {
 $(document).ready(function () {
   let table = $('#foods').DataTable({
     ajax: {
-        url : 'https://mai-place-api.herokuapp.com/foods',
+        url : window.api_url + 'foods',
            cache: true,
            dataSrc : '',
     },

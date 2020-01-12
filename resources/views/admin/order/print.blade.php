@@ -54,6 +54,11 @@
 					<span class='font-weight-bold' style='margin-left :285px'>Order Date : </span>
 					<span>{{ request('customer_phone_number') }}</span>
 					<span style='margin-left : 250px'> {{ request('customer_order_date') }}</span>
+					<br>
+					<br>
+					<span class='font-weight-bold'>Order Type : </span>
+					<br>
+					<span>{{ ucfirst(request('order_type')) }}</span>
 			</div>
 			<h3>Order Summary</h3>
 			@php $subTotal = 0 @endphp
@@ -72,23 +77,17 @@
 							@php $subTotal = $food->price * $order->quantity @endphp
 							<tr>
 								<td>{{ $food->name }}</td>
-								<td>{{ $food->price }}</td>
+								<td><span style="font-family: DejaVu Sans; sans-serif;">&#8369;</span>{{ $food->price }}</td>
 								<td>{{ $order->quantity }}</td>
-								<td>{{  $food->price * $order->quantity }}</td>
+								<td><span style="font-family: DejaVu Sans; sans-serif;">&#8369;</span>{{  $food->price * $order->quantity }}</td>
 							</tr>
 						@endforeach
 					@endforeach
 					<tr>
 						<td></td>
 						<td></td>
-						<td><b>Subtotal</b></td>
-						<td>P{{ $subTotal }}</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td></td>
 						<td><b>Total</b></td>
-						<td>P{{ $subTotal }}</td>
+						<td><span style="font-family: DejaVu Sans; sans-serif;">&#8369;</span>{{ $subTotal }}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -114,7 +113,40 @@
 					@endforeach
 				</tbody>
 			</table>
-			
+			<br>
+			<div class="receipt-seperator"></div>
+			<br>
+			<h3>Order Summary for management</h3>
+			@php $subTotal = 0 @endphp
+			<table class='table'>
+				<thead>
+					<tr>
+						<td>Item</td>
+						<td>Price</td>
+						<td>Quantity</td>
+						<td>Totals</td>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach($orders as $order)
+						@foreach($order->order_food as $food)
+							@php $subTotal = $food->price * $order->quantity @endphp
+							<tr>
+								<td>{{ $food->name }}</td>
+								<td><span style="font-family: DejaVu Sans; sans-serif;">&#8369;</span>{{ $food->price }}</td>
+								<td>{{ $order->quantity }}</td>
+								<td><span style="font-family: DejaVu Sans; sans-serif;">&#8369;</span>{{  $food->price * $order->quantity }}</td>
+							</tr>
+						@endforeach
+					@endforeach
+					<tr>
+						<td></td>
+						<td></td>
+						<td><b>Total</b></td>
+						<td><span style="font-family: DejaVu Sans; sans-serif;">&#8369;</span>{{ $subTotal }}</td>
+					</tr>
+				</tbody>
+			</table>
 		</main>
 	</body>
 </html>

@@ -29,6 +29,10 @@ Route::group(['prefix' => 'admin'], function () {
 	Route::get('order/{customerId}/{orderNo}', 'Admin\OrderController@show')
 				->name('order.show');
 	Route::post('order/print', 'Admin\OrderPrintController')->name('order.print');
+
+	Route::get('/prepare/order', 'Admin\OrderPrepareController@index')->name('prepare.order.index');
+	Route::get('/cancelled/order', 'Admin\CancelledOrderController@index')->name('cancelled.order.index');
+
 });
 Auth::routes();
 

@@ -130,7 +130,7 @@
 <!-- end - This is for export functionality only -->
 <script>
 // Socket.io setup
-const socket = io('https://mai-place-api.herokuapp.com/');
+const socket = io(window.api_url);
 
 // Init feathers app
 const app = feathers();
@@ -162,7 +162,7 @@ function openViewImageModal(e) {
 
 $(document).ready(function() {
   $.ajax({
-      url : 'https://mai-place-api.herokuapp.com/categories/{{$id}}',
+      url :  window.api_url + '{{$id}}',
       success : (category) => {
         $('.page-title').text(`${category.name} Foods`);
         document.title = `Mai Place | ${category.name} Foods`;

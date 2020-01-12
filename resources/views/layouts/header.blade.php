@@ -10,6 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" type="image/png" sizes="16x16" href="/plugins/images/favicon.png">
     <title>{{ env('APP_NAME') }} | @yield('title')</title>
+    <script>window.api_url = 'https://mai-place-api.herokuapp.com/';</script>
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     @stack('page-css')
