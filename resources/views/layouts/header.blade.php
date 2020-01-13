@@ -65,7 +65,7 @@
                 </ul>
                 <ul class="nav navbar-top-links navbar-right pull-right">
                     <li class="dropdown">
-                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img src="{{ Auth::user()->profile }}" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">{{ Auth::user()->name }}</b><span class="caret"></span> </a>
+                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <b class="hidden-xs">{{ Auth::user()->name }}</b><span class="caret"></span> </a>
                         <ul class="dropdown-menu dropdown-user animated flipInY">
                             <li role="separator" class="divider"></li>
                             <li><a href="{{ route('account.setting') }}"><i class="ti-settings"></i> Account Setting</a></li>
@@ -91,8 +91,8 @@
                     <h3><span class="fa-fw open-close"><i class="ti-close ti-menu"></i></span> <span class="hide-menu"></span></h3> </div>
                 <div class="user-profile">
                     <div class="dropdown user-pro-body">
-                        <div><img src="{{ Auth::user()->profile }}" alt="user-img" class="img-circle"></div>
-                        <a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
+                        {{-- <div><img src="{{ Auth::user()->profile }}" alt="user-img" class="img-circle"></div> --}}
+                        {{-- <a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a> --}}
                         <ul class="dropdown-menu animated flipInY">
                             <li role="separator" class="divider"></li>
                             <li><a href="{{ route('account.setting') }}"><i class="ti-settings"></i> Account Setting</a></li>
