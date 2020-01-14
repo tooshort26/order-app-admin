@@ -29,6 +29,12 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+    <style>
+        * {
+            color :black;
+            font-weight : bold;
+        }    
+    </style>
 </head>
 
 <body class="fix-header">
@@ -65,7 +71,7 @@
                 </ul>
                 <ul class="nav navbar-top-links navbar-right pull-right">
                     <li class="dropdown">
-                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <b class="hidden-xs">{{ Auth::user()->name }}</b><span class="caret"></span> </a>
+                        <a class="dropdown-toggle profile-pic"  data-toggle="dropdown" href="#"> <b class="hidden-xs" style="color :white;">{{ Auth::user()->name }}</b><span class="caret" style="color :white;"></span> </a>
                         <ul class="dropdown-menu dropdown-user animated flipInY">
                             <li role="separator" class="divider"></li>
                             <li><a href="{{ route('account.setting') }}"><i class="ti-settings"></i> Account Setting</a></li>
