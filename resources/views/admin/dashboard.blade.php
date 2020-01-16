@@ -46,6 +46,24 @@
             </div>
         </div>
     </div>
+    <div class="col-md-12 col-lg-4" id='out-of-delivery-pickup-orders' style='cursor:pointer;'>
+        <div class="white-box">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 class="m-b-0 font-medium">Out of Delivery/Pick up</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-4" id='paid-orders' style='cursor:pointer;'>
+        <div class="white-box">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 class="m-b-0 font-medium">Paid Orders</h2>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="row">
     <div class="col-lg-8">
@@ -96,6 +114,14 @@
 
     $('#cancelled-orders').click(function () {
         window.location.href = '/admin/cancelled/order';
+    });
+
+    $('#out-of-delivery-pickup-orders').click(function () {
+        window.location.href = '/admin/deliver/pickup/order';
+    });
+
+    $('#paid-orders').click(function () {
+        window.location.href = '/admin/paid/order';
     });
 
     $('#utility-expenses').click(function () {

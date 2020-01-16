@@ -32,6 +32,8 @@ Route::group(['prefix' => 'admin'], function () {
 
 	Route::get('/prepare/order', 'Admin\OrderPrepareController@index')->name('prepare.order.index');
 	Route::get('/cancelled/order', 'Admin\CancelledOrderController@index')->name('cancelled.order.index');
+	Route::get('/deliver/pickup/order', 'Admin\DeliverOrPickUpController@index')->name('deliver-pickup.index');
+	Route::get('/paid/order', 'Admin\PaidOrderController@index')->name('paid-order.index');
 
 });
 Auth::routes();

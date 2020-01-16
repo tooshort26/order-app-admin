@@ -96,6 +96,23 @@
 		<button type="button" class="btn btn-success waves-effect" id="btnSaveEditedCategory">Save</button>	
     @endslot
 @endcomponent
+
+@component('layouts.modal')
+	@slot('id') hidingCategoryModal @endslot
+    @slot('title')
+       <h4 class="modal-title">Remove category from menu</h4> </div>
+    @endslot
+    @slot('body')
+	    <div class="text-center">
+		   Are you sure to hide this category to the menu?
+	    </div>
+	   <input type="hidden" id="hideMenuCategoryId">
+    @endslot
+    @slot('footer')
+		<button type="button" class="btn btn-success waves-effect" id="btnHideCategoryFromMenu">Yes</button>	
+    @endslot
+@endcomponent
+
 @push('page-scripts')
 {{-- <script src="/plugins/bower_components/datatables/jquery.dataTables.min.js"></script> --}}
 <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
@@ -136,6 +153,12 @@ function openEditModal(e) {
 	$('#editCategoryModal').modal('toggle');
 }
 
+function hideCategoryModal(e) {
+	let data = JSON.parse(e.getAttribute('data-src'));
+	$('#hideMenuCategoryId').val(data.id);
+	$('#hidingCategoryModal').modal('toggle');
+}
+
 
 $(document).ready(function() {
 let table = $('#categories').DataTable({
@@ -162,6 +185,7 @@ let table = $('#categories').DataTable({
                         <button aria-expanded="false" data-toggle="dropdown" class="btn btn-success dropdown-toggle waves-effect waves-light" type="button">Actions <span class="caret"></span></button>
                         <ul role="menu" class="dropdown-menu">
                             <li><a onclick="openEditModal(this)" style="cursor:pointer;" data-src='${data}'><i class="fa fa-edit"></i> Edit</a></li>
+                            <li><a onclick="hideCategoryModal(this)" style="cursor:pointer;" data-src='${data}'><i class="fa fa-edit"></i> Remove from menu</a></li>
                             <li><a href="/admin/category/${JSON.parse(data).id}/foods" data-src='${data}'><i class="fa fa-spoon"></i> Foods <span class="badge">${Object.keys(full.foods).length}</span></a></li>
                         </ul>
                  </div>
@@ -207,6 +231,12 @@ let table = $('#categories').DataTable({
 
 $('#addNewCategory').click(function () {
 	$('#addCategoryModal').modal('toggle');
+});
+
+$('#btnHideCategoryFromMenu').click(function (e) {
+	e.preventDefault();
+	let id = $('#hideMenuCategoryId').val();
+	app.service('categories').update(id, {status : 'in_active'});
 });
 
 $('#btnSaveEditedCategory').click(function (e) {
@@ -285,7 +315,12 @@ $('#btnAddCategory').click(function (e) {
 
 function init() {
 	app.service('categories').on('updated', (data) => {
+		if(data.hasOwnProperty('status')) {
+			swal("Success!", `Succesfully remove ${data.name} from menu`, "success");
+			$('#hidingCategoryModal').modal('toggle');
+		} else {
 		swal("Success!", `Succesfully update a category`, "success");
+		}
 		table.ajax.reload();
 	});
 
@@ -293,6 +328,7 @@ function init() {
 		swal("Success!", `Succesfully add new category`, "success");
 		table.ajax.reload();
 	});
+
 }
 
 init();

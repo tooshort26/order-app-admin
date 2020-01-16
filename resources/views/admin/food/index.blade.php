@@ -20,6 +20,7 @@
 			<th>Description</th>
 			<th>Price</th>
       <th>Image</th>
+      <th>Status</th>
       <th>Category</th>
       <th>Actions</th>
 		</tr>
@@ -108,6 +109,17 @@
                   </select>
               </div>
           </div>
+
+          <div class="form-group">
+            <label>Availability</label>
+             <div class="input-group">
+                  <div class="input-group-addon"><i class="mdi mdi-food-variant"></i></div>
+                  <select id="food-status" class="form-control">
+                    <option value="available">Available</option>
+                    <option value="out_of_stock">Out of stock</option>
+                  </select>
+              </div>
+          </div>
           <div id="edit-food-images" class="row"></div>
           <br>
           <div class="form-group">
@@ -163,6 +175,7 @@ function openEditModal(e) {
   $('#editFoodPrice').val(data.price);
   $('#categories-edit').val(data.category.id);
   $('#edit-food-images').html('');
+  $('#food-status').val(data.status);
   data.images.forEach((f) => $('#edit-food-images').append(`<div class="col-md-12"><img src="${f.image}" class="img-responsive center-block" alt="" /></div>`) );
   $('#editFoodModal').modal('toggle');
 }
@@ -186,6 +199,11 @@ $(document).ready(function () {
            render : function ( data, type, full, meta) {
                return `<div class='text-center'><img width="50" src="${
                 full.images[0].image}" alt="" /></div>`;
+           }
+        },
+        {
+           render : function ( data, type, full, meta) {
+               return `<div class='text-center'>${full.status.replace(/_/g, " ")}</div>`;
            }
         },
         {
@@ -293,7 +311,8 @@ $('#btnUpdateFood').click(function (e) {
       name : $('#editFoodName').val(),
       description : $('#editFoodDescription').val(),
       price : $('#editFoodPrice').val(),
-      category_id : $('#categories-edit').val()
+      category_id : $('#categories-edit').val(),
+      status : $('#food-status').val()
     };
 
     thisBtn.prop('disabled', true);
