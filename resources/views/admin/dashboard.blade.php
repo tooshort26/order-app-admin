@@ -101,6 +101,36 @@
             
         </div>
     </div>
+
+</div>
+<div class="row">
+    <div class="col-md-12 col-lg-4" id='daily-selling-reports' style='cursor:pointer;'>
+        <div class="white-box">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 class="m-b-0 font-medium">Daily Selling Reports</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-4" id='weekly-selling-reports' style='cursor:pointer;'>
+        <div class="white-box">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 class="m-b-0 font-medium">Weekly Selling Reports</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-4" id='monthly-selling-reports' style='cursor:pointer;'>
+        <div class="white-box">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 class="m-b-0 font-medium">Monthly Selling Reports</h2>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @push('page-scripts')
 <script>
@@ -134,6 +164,18 @@
 
     $('#buying-food-expenses').click(function () {
         console.log('Redirect to buying of food expenses');
+    });
+
+    $('#daily-selling-reports').click(function () {
+        window.location.href = '/admin/sales/daily';
+    });
+
+    $('#weekly-selling-reports').click(function () {
+        window.location.href = '/admin/sales/weekly';
+    });
+
+    $('#monthly-selling-reports').click(function () {
+        window.location.href = '/admin/sales/monthly';
     });
 </script>
 @endpush

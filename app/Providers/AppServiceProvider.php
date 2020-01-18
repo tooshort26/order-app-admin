@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Schema;
+use Carbon\Carbon;
 use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,6 +29,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(UrlGenerator $url)
     {
+        Carbon::setWeekStartsAt(Carbon::MONDAY);
+        Carbon::setWeekEndsAt(Carbon::SUNDAY);
         if (env('REDIRECT_HTTPS')) {
             $url->formatScheme('https');
         }

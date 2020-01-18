@@ -34,6 +34,9 @@ Route::group(['prefix' => 'admin'], function () {
 	Route::get('/cancelled/order', 'Admin\CancelledOrderController@index')->name('cancelled.order.index');
 	Route::get('/deliver/pickup/order', 'Admin\DeliverOrPickUpController@index')->name('deliver-pickup.index');
 	Route::get('/paid/order', 'Admin\PaidOrderController@index')->name('paid-order.index');
+	Route::get('/sales/daily', 'Admin\DailySalesReportController@index')->name('daily.sales');
+	Route::get('/sales/monthly', 'Admin\MonthlySalesReportController@index')->name('monthly.sales');
+	Route::get('/sales/weekly', 'Admin\WeeklySalesReportController@index')->name('weekly.sales');
 
 });
 Auth::routes();
