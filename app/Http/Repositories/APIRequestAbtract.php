@@ -5,7 +5,7 @@ use GuzzleHttp\Client;
 
 abstract class APIRequestAbstract
 {
-	public const API_URL = 'http://192.168.1.2:3030/';
+	public const API_URL = 'https://mai-place-api.herokuapp.com/';
 
 	public function getClient() : Client
 	{
