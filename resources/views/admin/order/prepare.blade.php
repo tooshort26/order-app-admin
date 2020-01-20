@@ -71,6 +71,7 @@ const printReceipt = (data) => {
 
 function passForDeliveryOrPickup(customer_id, order_no) {
     app.service('orders').update(order_no, { customer_id : customer_id, status : 'deliver/pickup' });
+    // Execute Push notification for client app.
 }
 
 $(document).ready(function () {
@@ -181,6 +182,8 @@ function init() {
       table.ajax.reload();
     } else if(order.status == 'deliver/pickup') {
       table.ajax.reload();
+      // Emit an event to push a notification to mobile-user.
+      socket.emit('order-ready', {customer_id : order.customer_id , order_type : order.order_type});
       swal("Success!", `Succesfully pass the order to out of delivery/pickup. `, "success");
     }
   });
