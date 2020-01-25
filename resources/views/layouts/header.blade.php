@@ -10,8 +10,8 @@
     <meta name="author" content="">
     <link rel="icon" type="image/png" sizes="16x16" href="/plugins/images/favicon.png">
     <title>{{ env('APP_NAME') }} | @yield('title')</title>
-    {{-- <script>window.api_url = 'http://192.168.1.2:3030/';</script> --}}
-    <script>window.api_url = 'https://mai-place-api.herokuapp.com/'</script>
+    <script>window.api_url = 'http://192.168.1.4:3030/';</script>
+    {{-- <script>window.api_url = 'https://mai-place-api.herokuapp.com/'</script> --}}
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     @stack('page-css')
@@ -114,6 +114,16 @@
                     <li> <a href="{{ route('category.index') }}" class="waves-effect"><i class="mdi mdi-food-variant" data-icon="v"></i> <span class="hide-menu">Categories</a></li>
                     <li> <a href="{{ route('food.index') }}" class="waves-effect"><i class="mdi mdi-food" data-icon="v"></i> <span class="hide-menu">Foods</a></li>
                     <li> <a href="{{ route('order.index') }}" class="waves-effect"><i class="mdi mdi-cart" data-icon="v"></i> <span class="hide-menu">Orders</a></li>
+                         <li> <a href="javascript:void(0)" class="waves-effect"><i class="mdi mdi-checkbox-multiple-marked-outline fa-fw"></i> <span class="hide-menu">Reports<span class="fa arrow"></span></span></a>
+                        <ul class="nav nav-second-level">
+                            <li> <a href=""><i data-icon="/" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu">Daily Reports</span></a> </li>
+                            <li> <a href=""><i data-icon="7" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu">Weekly Reports</span></a> 
+                            </li>
+                            <li> <a href=""><i data-icon="7" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu">Monthly Reports</span></a> 
+                            </li>
+
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>

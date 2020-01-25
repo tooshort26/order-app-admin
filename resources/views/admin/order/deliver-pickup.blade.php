@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title', 'Orders')
-@section('sub-title', 'List of Out of delivery/pickup orders')
+@section('sub-title', 'List of Ready for Delivery/Pick-up orders')
 @section('content')
 @prepend('page-css')
 <link href="/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />

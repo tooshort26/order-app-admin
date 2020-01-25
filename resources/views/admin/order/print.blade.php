@@ -32,6 +32,15 @@
 			width : 100%;
 			border-top : 2px dashed black;
 		}
+		.float-right {
+			float : right;
+		}
+		.float-left  {
+			float : left;
+		}
+		.clear {
+			clear : both;
+		}
 		</style>
 	</head>
 	<body>
@@ -44,21 +53,23 @@
 		<main>
 			<h3>Order #: {{ request('order_no') }}</h3>
 			<div class="customer-details">
-					<span class='font-weight-bold'>Name : </span>
-					<span class='font-weight-bold' style='margin-left :350px'>Address : </span>
-					<span>{{ ucfirst(request('customer_name'))}} </span>
-					<span style='margin-left : 284px'> {{ ucfirst(request('customer_address') ) }}</span>
+					<span class='font-weight-bold float-left'>Name : </span>
+					<span class='font-weight-bold float-right'>Address : </span>
+					<div class='clear'></div>
+					<span class='float-left'>{{ ucfirst(request('customer_name'))}}</span>
+					<span class='float-right'> {{ ucfirst(request('customer_address') ) }}</span>
 					<br>
 					<br>
-					<span class='font-weight-bold'>Phone Number : </span>
-					<span class='font-weight-bold' style='margin-left :285px'>Order Date : </span>
-					<span>{{ request('customer_phone_number') }}</span>
-					<span style='margin-left : 250px'> {{ request('customer_order_date') }}</span>
+					<span class='font-weight-bold float-left'>Phone Number : </span>
+					<span class='font-weight-bold float-right'>Order Date : </span>
+					<div class='clear'></div>
+					<span class='float-left'>{{ request('customer_phone_number') }}</span>
+					<span class='float-right'> {{ request('customer_order_date') }}</span>
 					<br>
 					<br>
-					<span class='font-weight-bold'>Order Type : </span>
+					<span class='font-weight-bold float-left'>Order Type : </span>
 					<br>
-					<span>{{ ucfirst(request('order_type')) }}</span>
+					<span class='float-left'>{{ ucfirst(request('order_type')) }}</span>
 			</div>
 			<h3>Order Summary</h3>
 			@php $subTotal = 0 @endphp
@@ -74,7 +85,7 @@
 				<tbody>
 					@foreach($orders as $order)
 						@foreach($order->order_food as $food)
-							@php $subTotal = $food->price * $order->quantity @endphp
+							@php $subTotal += $food->price * $order->quantity @endphp
 							<tr>
 								<td>{{ $food->name }}</td>
 								<td><span style="font-family: DejaVu Sans; sans-serif;">&#8369;</span>{{ $food->price }}</td>
@@ -94,6 +105,7 @@
 			<br>
 			<div class="receipt-seperator"></div>
 			<br>
+			<p></p>
 			<h3>Order copy for kitchen</h3>
 			<table class='table'>
 				<thead>
@@ -115,6 +127,7 @@
 			</table>
 			<br>
 			<div class="receipt-seperator"></div>
+			<p></p>
 			<br>
 			<h3>Order Summary for management</h3>
 			@php $subTotal = 0 @endphp
@@ -130,7 +143,7 @@
 				<tbody>
 					@foreach($orders as $order)
 						@foreach($order->order_food as $food)
-							@php $subTotal = $food->price * $order->quantity @endphp
+							@php $subTotal += $food->price * $order->quantity @endphp
 							<tr>
 								<td>{{ $food->name }}</td>
 								<td><span style="font-family: DejaVu Sans; sans-serif;">&#8369;</span>{{ $food->price }}</td>

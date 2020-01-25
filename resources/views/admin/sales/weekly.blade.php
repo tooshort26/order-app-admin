@@ -20,6 +20,7 @@ td.two {
   </style>
 </head>
 <body>
+  <h5>Weekly report for {{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('F j, Y') }}</h5>
   <table class='table table-bordered table-hover'>
   <thead>
     <tr>
@@ -31,7 +32,7 @@ td.two {
     <tr class='second-header'>
         <th>Food Item</th>
         @for($week = 1; $week<=$weeks; $week++)
-          <td class='two text-center'>Profit</td>
+          <td class='two text-center'>Item Sales</td>
           <td class='two text-center'>Quantity</td>
         @endfor
     </tr>

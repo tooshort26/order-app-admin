@@ -20,6 +20,7 @@ td.two {
   </style>
 </head>
 <body>
+  <h5>Monthly report for {{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('F Y') }}</h5>
   <table class='table table-bordered table-hover'>
   <thead>
     <tr>
@@ -31,7 +32,7 @@ td.two {
     <tr class='second-header'>
         <th>Food Item</th>
         @foreach($months as $month)
-          <td class='two'>Profit</td>
+          <td class='two'>Item Sales</td>
           <td class='two'>Quantity</td>
         @endforeach
     </tr>

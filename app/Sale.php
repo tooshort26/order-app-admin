@@ -12,10 +12,6 @@ class Sale extends Model
 	protected $fillable = ['customer_id', 'order_no', 'order_type', 'order_at', 'quantity', 'price', 'name'];
 	protected $dates = ['order_at'];
 
-	public function foods()
-	{
-		return $this->hasMany('App\Food');
-	}
 
 	public static function tapSale($salesData)
 	{

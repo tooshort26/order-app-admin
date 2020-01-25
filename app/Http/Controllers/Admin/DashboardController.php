@@ -2,23 +2,30 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\APIFoodRequestRepository;
+use App\Http\Repositories\APISalesRequestRepository;
+use App\Http\Repositories\YearlySalesRepository;
+use App\Sale;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function __construct()
+    public function __construct(YearlySalesRepository $yearlySalesRepo)
     {
         $this->middleware('auth');
+        $this->yearlySalesRepo = $yearlySalesRepo;
     }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('admin.dashboard');
+    {   
+        $yearlySales = implode(',', $this->yearlySalesRepo->init());
+        return view('admin.dashboard', compact('yearlySales'));
     }
 
     /**

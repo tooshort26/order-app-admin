@@ -8,10 +8,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chartist-plugin-tooltips@0.0.17/dist/chartist-plugin-tooltip.css">
 <!-- animation CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css" integrity="sha256-1hIhSlowg4vqaFZ/bikPMfEGwSgM0FtIs7mx1PADHCk=" crossorigin="anonymous" />
-<!-- morris CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
-<!--Gauge chart CSS -->
-<link href="/plugins/bower_components/Minimal-Gauge-chart/css/cmGauge.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
 @endprepend
 @section('dashboard-content')
 <!-- ============================================================== -->
@@ -50,7 +47,7 @@
         <div class="white-box">
             <div class="row">
                 <div class="col-sm-6">
-                    <h2 class="m-b-0 font-medium">Out of Delivery/Pick up</h2>
+                    <h2 class="m-b-0 font-medium">Ready for Delivery/Pick-up</h2>
                 </div>
             </div>
         </div>
@@ -66,7 +63,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-8">
+    <div class="col-lg-6">
         <div class="panel panel-info block4" style="position: static; zoom: 1;">
                 <div class="panel-heading"> Expenses
                     <div class="pull-right"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> <a href="#" data-perform="panel-dismiss"><i class="ti-close"></i></a> </div>
@@ -96,9 +93,11 @@
                 </div>
             </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-6">
         <div class="white-box">
-            
+            <div id="canvas-holder">
+                    <canvas id="chart-area"></canvas>
+            </div>
         </div>
     </div>
 
@@ -132,7 +131,60 @@
         </div>
     </div>
 </div>
+<div id='chart-data' data-src='{{ $yearlySales }}'></div>
 @push('page-scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+        let data = document.getElementById('chart-data').getAttribute('data-src');
+        var config = {
+            type: 'pie',
+            data: {
+                datasets: [{
+                    data: data.split(','),
+                    backgroundColor: [
+                        '#4dc9f6',
+                        '#f67019',
+                        '#f53794',
+                        '#537bc4',
+                        '#acc236',
+                        '#166a8f',
+                        '#00a950',
+                        '#58595b',
+                        '#8549ba',
+                        '#CD5C5C',
+                        '#C48B2C',
+                        '#3589B6'
+                    ],
+                    label: 'Dataset 1'
+                }],
+                labels: [
+                    'January',
+                    'February',
+                    'March',
+                    'April',
+                    'May',
+                    'June',
+                    'July',
+                    'August',
+                    'September',
+                    'October',
+                    'November',
+                    'December'
+                ]
+            },
+            options: {
+                responsive: true
+            }
+        };
+
+        window.onload = function() {
+            var ctx = document.getElementById('chart-area').getContext('2d');
+            window.myPie = new Chart(ctx, config);
+        };
+
+    });
+</script>
 <script>
     $('#incoming-orders').click(function () {
         window.location.href = '/admin/order';

@@ -132,6 +132,22 @@
     @endslot
 @endcomponent
 
+@component('layouts.modal')
+  @slot('id') hideFoodModal @endslot
+    @slot('title')
+       <h4 class="modal-title">Remove food from menu</h4> </div>
+    @endslot
+    @slot('body')
+      <div class="text-center">
+       Are you sure to hide this food to the menu?
+      </div>
+     <input type="hidden" id="hideFoodId">
+    @endslot
+    @slot('footer')
+    <button type="button" class="btn btn-success waves-effect" id="btnHideFoodFromMenu">Yes</button>  
+    @endslot
+@endcomponent
+
 
 @push('page-scripts')
 <script src="/plugins/bower_components/datatables/jquery.dataTables.min.js"></script>
@@ -180,6 +196,13 @@ function openEditModal(e) {
   $('#editFoodModal').modal('toggle');
 }
 
+function hideSelectedFood(e) {
+    // console.log(e.getAttribute('data-src'));
+    let data = JSON.parse(e.getAttribute('data-src'));
+    $('#hideFoodId').val(data.id);
+    $('#hideFoodModal').modal('toggle');
+}
+
 $(document).ready(function () {
   let table = $('#foods').DataTable({
     ajax: {
@@ -221,6 +244,7 @@ $(document).ready(function () {
                           <button aria-expanded="false" data-toggle="dropdown" class="btn btn-success dropdown-toggle waves-effect waves-light" type="button">Actions <span class="caret"></span></button>
                           <ul role="menu" class="dropdown-menu">
                               <li><a onclick="openEditModal(this)" style="cursor:pointer;" data-src='${data}'><i class="fa fa-edit"></i> Edit</a></li>
+                            <li><a onclick="hideSelectedFood(this)" style="cursor:pointer;" data-src='${data}'><i class="fa fa-times"></i> Remove</a></li>
                           </ul>
                    </div>
                 </div>
@@ -336,17 +360,27 @@ $('#btnUpdateFood').click(function (e) {
       app.service('foods').update(id, data);
       thisBtn.prop('disabled', false);
     }
-   
+});
+
+$('#btnHideFoodFromMenu').click(function () {
+  let id = $('#hideFoodId').val();
+  app.service('foods').update(id, {status : 'remove'});
 });
 
 function init() {
   app.service('foods').on('updated', (data) => {
-    swal("Success!", `Succesfully update a category`, "success");
+    if (data.status == 'remove') {
+      swal("Success!", `Succesfully remove food`, "success");
+      $('#hideFoodModal').modal('toggle');
+    } else {
+      swal("Success!", `Succesfully update a food`, "success");
+    }
+    
     table.ajax.reload();
   });
 
   app.service('foods').on('created', (data) => {
-    swal("Success!", `Succesfully add new category`, "success");
+    swal("Success!", `Succesfully add new food`, "success");
     table.ajax.reload();
   });
 }
