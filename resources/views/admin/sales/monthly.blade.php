@@ -20,20 +20,35 @@ td.two {
   </style>
 </head>
 <body>
-  <h5>Monthly report for {{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('F Y') }}</h5>
+  <h5>
+    Monthly report for 
+    @if(isset($end))
+      {{ $start->format('F') }} to {{ $end->format('F Y') }}
+    @else
+    {{-- THIS MEANS THAT THE RENDERED REPORT IS FROM GENERATE --}}
+      {{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('F Y') }} 
+    @endif
+
+  </h5>
   <table class='table table-bordered table-hover'>
   <thead>
     <tr>
         <td class='one'></td>
-        @foreach($months as $month)
+        @foreach($months as $key => $month)
           <td class='one text-center' colspan='2'>{{ $month }}</td>
+           @if(isset($end) && $key == $end->format('m'))
+            @break
+          @endif
         @endforeach
      </tr>
     <tr class='second-header'>
         <th>Food Item</th>
-        @foreach($months as $month)
+        @foreach($months as $key => $month)
           <td class='two'>Item Sales</td>
           <td class='two'>Quantity</td>
+          @if(isset($end) && $key == $end->format('m'))
+           @break
+          @endif
         @endforeach
     </tr>
   </thead>
@@ -51,6 +66,10 @@ td.two {
                 <td class='two'></td>
               @endif
 
+              @if(isset($end) && $index == $end->format('m'))
+              @break
+              @endif
+
             @endforeach
         </tr>
       @endforeach
@@ -58,9 +77,12 @@ td.two {
     @foreach($foodData as $food)
         <tr>
           <td class='food-sale'>{{ $food->name }}</td>
-          @foreach($months as $month)
+          @foreach($months as $key => $month)
             <td class='two'></td>
             <td class='two'></td>
+            @if(isset($end) && $key == $end->format('m'))
+              @break
+            @endif
           @endforeach
         </tr>
    @endforeach   

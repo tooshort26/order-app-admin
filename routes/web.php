@@ -42,6 +42,9 @@ Route::group(['prefix' => 'admin'], function () {
 
 	Route::get('/sales/weekly', 'Admin\WeeklySalesReportController@index')->name('weekly.sales');
 
+	Route::get('/generate/report', 'Admin\ReportController@index')->name('generate.report');
+	Route::post('/generate/report', 'Admin\ReportController@generate')->name('generate.submit');
+
 });
 Auth::routes();
 

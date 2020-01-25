@@ -114,16 +114,7 @@
                     <li> <a href="{{ route('category.index') }}" class="waves-effect"><i class="mdi mdi-food-variant" data-icon="v"></i> <span class="hide-menu">Categories</a></li>
                     <li> <a href="{{ route('food.index') }}" class="waves-effect"><i class="mdi mdi-food" data-icon="v"></i> <span class="hide-menu">Foods</a></li>
                     <li> <a href="{{ route('order.index') }}" class="waves-effect"><i class="mdi mdi-cart" data-icon="v"></i> <span class="hide-menu">Orders</a></li>
-                         <li> <a href="javascript:void(0)" class="waves-effect"><i class="mdi mdi-checkbox-multiple-marked-outline fa-fw"></i> <span class="hide-menu">Reports<span class="fa arrow"></span></span></a>
-                        <ul class="nav nav-second-level">
-                            <li> <a href=""><i data-icon="/" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu">Daily Reports</span></a> </li>
-                            <li> <a href=""><i data-icon="7" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu">Weekly Reports</span></a> 
-                            </li>
-                            <li> <a href=""><i data-icon="7" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu">Monthly Reports</span></a> 
-                            </li>
-
-                        </ul>
-                    </li>
+                    <li> <a href="{{ route('generate.report') }}" class="waves-effect"><i class="mdi mdi-calendar" data-icon="v"></i> <span class="hide-menu">Generate Reports</a></li>
                 </ul>
             </div>
         </div>
