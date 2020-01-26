@@ -95,6 +95,9 @@
     </div>
     <div class="col-lg-6">
         <div class="white-box">
+            <div class="col-lg-4" id='utility-expenses'>
+                   <h3 class="m-b-0 font-medium">Yearly sales</h3>
+             </div>
             <div id="canvas-holder">
                     <canvas id="chart-area"></canvas>
             </div>

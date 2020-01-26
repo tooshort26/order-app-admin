@@ -5,6 +5,7 @@
   <title>Document</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <style>
+body { padding : 5px; }
 
 td.one {
   position: sticky;
@@ -20,7 +21,8 @@ td.two {
   </style>
 </head>
 <body>
-  <h5>Daily report for {{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('M j, Y') }} <button class='btn btn-sm btn-primary' id='btnPrintDaily'> Print</button></h5>
+  <h5 class='text-center'>Daily report for {{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('M j, Y') }} </h5>
+  <hr>
   <table class='table table-bordered table-hover'>
   <thead>
     <tr>

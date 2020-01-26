@@ -5,7 +5,7 @@
   <title>Document</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <style>
-
+body { padding :5px; }
 td.one {
   position: sticky;
   top: -20px;
@@ -20,7 +20,7 @@ td.two {
   </style>
 </head>
 <body>
-  <h5>
+  <h5 class='text-center'>
     Monthly report for 
     @if(isset($end))
       {{ $start->format('F') }} to {{ $end->format('F Y') }}
@@ -28,8 +28,8 @@ td.two {
     {{-- THIS MEANS THAT THE RENDERED REPORT IS FROM GENERATE --}}
       {{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('F Y') }} 
     @endif
-
   </h5>
+  <hr>
   <table class='table table-bordered table-hover'>
   <thead>
     <tr>
@@ -59,11 +59,11 @@ td.two {
             <td class='text-center font-weight-bold'>{{ $item->name }}</td>
             @foreach($months as $index => $m)
               @if($month == $index)
-                <td class='two text-center'>&#8369;{{ $item->price * $item->quantity }}</td>
-                <td class='two text-center'>{{ $item->quantity }}</td>
+                <td class='text-center'>&#8369;{{ $item->price * $item->quantity }}</td>
+                <td class='text-center'>{{ $item->quantity }}</td>
               @else
-                <td class='two'></td>
-                <td class='two'></td>
+                <td class=''></td>
+                <td class=''></td>
               @endif
 
               @if(isset($end) && $index == $end->format('m'))
