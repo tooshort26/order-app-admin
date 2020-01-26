@@ -4,11 +4,10 @@
 <section id="wrapper" class="new-login-register">
     <div class="lg-info-panel">
         <div class="inner-panel">
-            <a href="javascript:void(0)" class="p-20 di"><img src="../plugins/images/admin-logo.png"></a>
             <div class="lg-content">
-                <h2>THE ULTIMATE & MULTIPURPOSE ADMIN TEMPLATE OF 2017</h2>
-                <p class="text-muted">with this admin you can get 2000+ pages, 500+ ui component, 2000+ icons, different demos and many more... </p>
-                <a href="#" class="btn btn-rounded btn-danger p-l-20 p-r-20"> Buy now</a>
+                <img src="https://res.cloudinary.com/dpcxcsdiw/image/upload/v1577521445/mai-place/mai_place_logo.png">
+                <h2>Mai Place Bislig Adminstrator</h2>
+                {{-- <a href="#" class="btn btn-rounded btn-danger p-l-20 p-r-20"></a> --}}
             </div>
         </div>
     </div>
