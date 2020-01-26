@@ -63,7 +63,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-6">
+    {{-- <div class="col-lg-6 hide">
         <div class="panel panel-info block4" style="position: static; zoom: 1;">
                 <div class="panel-heading"> Expenses
                     <div class="pull-right"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> <a href="#" data-perform="panel-dismiss"><i class="ti-close"></i></a> </div>
@@ -92,7 +92,7 @@
                     </div>
                 </div>
             </div>
-    </div>
+    </div> --}}
     <div class="col-lg-6">
         <div class="white-box">
             <div class="col-lg-4" id='utility-expenses'>

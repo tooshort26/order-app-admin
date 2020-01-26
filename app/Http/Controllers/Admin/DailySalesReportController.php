@@ -51,6 +51,7 @@ class DailySalesReportController extends Controller
         });
 
         $noOfDays = Carbon::now()->daysInMonth;
+        // $noOfDays = 10;
         $sales = Sale::whereMonth('order_at', '=', Carbon::parse(Carbon::now())->format('m'))->get();
         $pdf = app('dompdf.wrapper');
         $pdf->loadView('admin.sales.daily-print', compact('noOfDays', 'foodData', 'sales'));

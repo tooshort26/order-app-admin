@@ -24,13 +24,13 @@ td.two {
   <thead>
     <tr>
         <td class='one'></td>
-        @for($day = 1; $day<=$noOfDays; $day++)
+        @for($day = 1; $day<=5; $day++)
           <td class='one text-center' colspan='2'>Day {{ $day }}</td>
         @endfor
      </tr>
     <tr class='second-header'>
         <th>Food Item</th>
-        @for($day = 1; $day<=$noOfDays; $day++)
+        @for($day = 1; $day<=5; $day++)
           <td class='two'>Item Sales</td>
           <td class='two'>Quantity</td>
         @endfor
@@ -40,7 +40,7 @@ td.two {
      @foreach($sales as $sale)
         <tr>
           <td class='food-sale font-weight-bold'>{{ $sale->name }}</td>
-          @for($day = 1; $day<=$noOfDays; $day++)
+          @for($day = 1; $day<=5; $day++)
             @if($sale->order_at->format('d') == $day)
               <td class='text-center'>&#8369;{{ $sale->price * $sale->quantity }}</td>
               <td class='text-center'>{{ $sale->quantity }}</td>
@@ -54,7 +54,7 @@ td.two {
        @foreach($foodData as $food)
         <tr>
           <td class='food-sale'>{{ $food->name }}</td>
-          @for($day = 1; $day<=$noOfDays; $day++)
+          @for($day = 1; $day<=5; $day++)
               <td>&nbsp;</td>
               <td>&nbsp;</td>
           @endfor
