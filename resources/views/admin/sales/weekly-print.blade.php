@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Appointment Confirmation</title>
+    <title>Weekly report for {{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('F j, Y') }}</title>
     <style  type="text/css" media="all">
     @page { margin: 20px 25px; }
     header { position: fixed; top: -100px; left: 0px; right: 0px; height: 50px; }

@@ -39,6 +39,7 @@ Route::group(['prefix' => 'admin'], function () {
 	Route::get('/sales/daily/print', 'Admin\DailySalesReportController@print')->name('daily.sales.print');
 
 	Route::get('/sales/monthly', 'Admin\MonthlySalesReportController@index')->name('monthly.sales');
+	Route::get('/sales/monthly/print', 'Admin\MonthlySalesReportPrintController@print')->name('monthly.sales.print');
 
 	Route::get('/sales/weekly', 'Admin\WeeklySalesReportController@index')->name('weekly.sales');
 	Route::get('/sales/weekly/print', 'Admin\WeeklySalesReportPrintController@print')->name('weekly.sales.print');
