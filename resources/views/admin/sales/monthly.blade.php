@@ -21,12 +21,12 @@ td.two {
 </head>
 <body>
   <h5 class='text-center'>
-    Monthly report for 
+    Monthly report for year
     @if(isset($end))
-      {{ $start->format('F') }} to {{ $end->format('F Y') }}
+     {{ $end->format('F Y') }}
     @else
     {{-- THIS MEANS THAT THE RENDERED REPORT IS FROM GENERATE --}}
-      {{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('F Y') }} 
+      {{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('Y') }} 
     @endif
   </h5>
   <hr>
