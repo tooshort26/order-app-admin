@@ -22,12 +22,7 @@
     <main>
       <h3>
       Monthly report for year
-      @if(isset($end))
-      {{ $end->format('F Y') }}
-      @else
-      {{-- THIS MEANS THAT THE RENDERED REPORT IS FROM GENERATE --}}
-      {{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('Y') }}
-      @endif
+      {{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('F Y') }}
       </h3>
       <table class='table-collapse' border='1'>
         <thead>
@@ -35,9 +30,6 @@
             <td class='one'></td>
             @foreach($months as $key => $month)
             <td class='one text-center' colspan='2'>{{ $month }}</td>
-            @if(isset($end) && $key == $end->format('m'))
-            @break
-            @endif
             @endforeach
           </tr>
           <tr class='second-header'>
@@ -45,9 +37,6 @@
             @foreach($months as $key => $month)
             <td class='two'>Item Sales</td>
             <td class='two'>Quantity</td>
-            @if(isset($end) && $key == $end->format('m'))
-            @break
-            @endif
             @endforeach
           </tr>
         </thead>
@@ -64,9 +53,6 @@
             <td class=''></td>
             <td class=''></td>
             @endif
-            @if(isset($end) && $index == $end->format('m'))
-            @break
-            @endif
             @endforeach
           </tr>
           @endforeach
@@ -77,9 +63,6 @@
             @foreach($months as $key => $month)
             <td class='two'></td>
             <td class='two'></td>
-            @if(isset($end) && $key == $end->format('m'))
-            @break
-            @endif
             @endforeach
           </tr>
           @endforeach

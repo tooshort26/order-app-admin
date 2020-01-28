@@ -20,7 +20,7 @@
       <hr>
     </header> --}}
     <main>
-      <h1>Daily report for {{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('M j, Y') }}</h1>
+      <h1>Daily report for {{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('M j, Y') }} </h1>
       <table border='1' class='table-collapse' style='width : 100%;'>
         <thead>
           <tr>

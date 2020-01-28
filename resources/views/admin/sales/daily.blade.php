@@ -21,7 +21,10 @@ td.two {
   </style>
 </head>
 <body>
-  <h5 class='text-center'>Daily report for {{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('M j, Y') }} </h5>
+  <h5 class='text-center'>Daily report for {{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('M j, Y') }} 
+    <br>
+    <a href="/admin/sales/daily/print" class='btn btn-primary btn-sm'>Print</a>
+  </h5>
   <hr>
   <table class='table table-bordered table-hover'>
   <thead>

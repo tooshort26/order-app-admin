@@ -21,10 +21,9 @@ td.two {
 </head>
 <body>
   <h5 class='text-center'>
-    Monthly report for year
-           {{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('Y') }}
-       <br>
-    <a href="/admin/sales/monthly/print" class='btn btn-primary btn-sm'>Print</a>
+    Monthly report for year {{ $start->format('F Y')}} to {{ $end->format('F Y')}}
+    <br>
+    <a href="/admin/generate/report/{{$start->format('Y-m-d')}}/{{$end->format('Y-m-d')}}/print" class='btn btn-primary btn-sm'>Print</a>
   </h5>
   <hr>
   <table class='table table-bordered table-hover'>
@@ -47,7 +46,7 @@ td.two {
     @foreach($sales as $month => $data)
       @foreach($data as $item)
         <tr>
-            <td class='text-center font-weight-bold'>{{ $item->name }}</td>
+            <td class='font-weight-bold'>{{ $item->name }}</td>
             @foreach($months as $index => $m)
               @if($month == $index)
                 <td class='text-center'>&#8369;{{ $item->price * $item->quantity }}</td>

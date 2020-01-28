@@ -20,7 +20,10 @@ td.two {
   </style>
 </head>
 <body>
-  <h5 class='text-center'>Weekly report for {{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('F j, Y') }}</h5>
+  <h5 class='text-center'>Weekly report for {{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('F j, Y') }}
+    <br>
+    <a href="/admin/sales/weekly/print" class='btn btn-primary btn-sm'>Print</a>
+  </h5>
   <hr>
   <table class='table table-bordered table-hover'>
   <thead>

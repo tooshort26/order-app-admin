@@ -45,6 +45,7 @@ Route::group(['prefix' => 'admin'], function () {
 	Route::get('/sales/weekly/print', 'Admin\WeeklySalesReportPrintController@print')->name('weekly.sales.print');
 
 	Route::get('/generate/report', 'Admin\ReportController@index')->name('generate.report');
+	Route::get('/generate/report/{start}/{end}/print', 'Admin\ReportController@print')->name('generate.report.print');
 	Route::post('/generate/report', 'Admin\ReportController@generate')->name('generate.submit');
 
 });

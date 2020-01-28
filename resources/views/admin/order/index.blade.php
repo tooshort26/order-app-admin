@@ -183,8 +183,9 @@ function init() {
   });
 
   app.service('orders').on('updated', (order) => {
-    table.ajax.reload();
-    swal("Success!", `Succesfully pass the order to prepare. `, "success");
+    if(order.status != 'cancelled') {
+      swal("Success!", `Succesfully pass the order to prepare. `, "success");
+    }
   });
 }
 
